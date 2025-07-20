@@ -1,127 +1,49 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+"use client";
+
+import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import {
-  Shield,
-  DollarSign,
-  TrendingDown,
-  Settings,
-  Bed,
-  Bath,
-  Square,
-  Heart,
-  MapPin,
-  Play,
-  MessageCircle,
-  User,
-} from "lucide-react";
+import PropertyTabs from "@/components/PropertyTab";
+import { Card, CardContent } from "@/components/ui/card";
+import { PropertyListings } from "@/components/PropertyListings";
+import { DoorsSection } from "@/components/DoorsSection";
+import { NewsroomSection } from "@/components/NewsroomSection";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export default function Home() {
+const page = () => {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
-                  <div className="w-6 h-6 bg-blue-600 rounded-sm"></div>
-                </div>
-                <span className="text-xl font-bold">Airban</span>
-              </div>
-              <nav className="hidden md:flex space-x-6">
-                <Link href="#" className="hover:text-blue-200">
-                  Home
-                </Link>
-                <Link href="#" className="hover:text-blue-200">
-                  Our Doors
-                </Link>
-                <Link href="#" className="hover:text-blue-200">
-                  Properties
-                </Link>
-                <Link href="#" className="hover:text-blue-200">
-                  Company
-                </Link>
-                <Link href="#" className="hover:text-blue-200">
-                  About
-                </Link>
-              </nav>
-            </div>
-            <Button
-              variant="secondary"
-              className="bg-white text-blue-600 hover:bg-gray-100"
-            >
-              Get Quote
-            </Button>
-          </div>
-        </div>
-      </header>
-
+    <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Buy, rent, or sell your property easily
-              </h1>
-              <p className="text-blue-100 mb-8 text-lg">
-                A great platform to buy, sell, or even rent your properties
-                without any commissions.
-              </p>
-
-              {/* Search Form */}
-              <div className="bg-white rounded-lg p-6 text-gray-900">
-                <div className="flex space-x-4 mb-4">
-                  <Button variant="default" className="bg-blue-600 text-white">
-                    Rent
-                  </Button>
-                  <Button variant="ghost" className="text-gray-600">
-                    Buy
-                  </Button>
-                  <Button variant="ghost" className="text-gray-600">
-                    Sell
-                  </Button>
-                </div>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div>
-                    <Input placeholder="Barcelona, Spain" className="w-full" />
-                  </div>
-                  <div>
-                    <Input
-                      placeholder="Select Move-in Date"
-                      className="w-full"
-                    />
-                  </div>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                    Browse Properties
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <Image
-                src="/placeholder.svg?height=400&width=500"
-                alt="Modern house"
-                width={500}
-                height={400}
-                className="rounded-lg"
-              />
-            </div>
+      <section className="relative h-[80vh] bg-[url('/assets/hero.png')] bg-cover bg-center bg-no-repeat w-full px-4">
+        <div className="relative z-20 flex flex-col h-full justify-center items-start w-full px-6">
+          <div className=" text-left max-w-4xl text-white">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              Buy, rent or sell your <br /> property easily
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 leading-relaxed">
+              A great platform to buy, sell, or even rent your <br /> properties
+              without any commisions.
+            </p>
           </div>
+          <PropertyTabs />
         </div>
+        <Image
+          className="absolute bottom-0 right-0 w-1/2 lg:w-[500px] z-10 hidden md:block"
+          src="/assets/heroHouse.png"
+          alt="Hero Image"
+          width={500}
+          height={500}
+          priority
+        />
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
-            <div className="lg:col-span-2">
-              <Card className="bg-blue-600 text-white h-full">
-                <CardContent className="p-8">
+      <section className="py-24 px-10 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 gap-x-20 lg:grid-cols-3 grid-cols-1">
+            {/* Left Side Illustration Card */}
+            <div className="lg:order-1 order-1 ">
+              <Card className="bg-airbanBlue text-white h-full relative overflow-hidden">
+                <CardContent className="p-8 relative z-10">
                   <h3 className="text-2xl font-bold mb-4">
                     The new way to find your new home
                   </h3>
@@ -129,378 +51,134 @@ export default function Home() {
                     Find your dream place to live in with more than 10k+
                     properties listed.
                   </p>
-                  <Button
-                    variant="secondary"
-                    className="bg-white text-blue-600"
-                  >
-                    Browse Properties
-                  </Button>
-                  <div className="mt-8">
-                    <Image
-                      src="/placeholder.svg?height=120&width=200"
-                      alt="House illustration"
-                      width={200}
-                      height={120}
-                      className="opacity-80"
-                    />
-                  </div>
                 </CardContent>
+
+                {/* Responsive Image */}
+                <Image
+                  src="/assets/airbanIllustration.png"
+                  alt="House illustration"
+                  width={500}
+                  height={300}
+                  className="absolute bottom-0 -right-16 w-1/2 sm:w-1/3 md:w-[250px] lg:w-[350px] hidden md:block"
+                />
               </Card>
             </div>
 
-            <div className="space-y-6">
-              <Card>
-                <CardContent className="p-6">
-                  <Shield className="w-8 h-8 text-blue-600 mb-4" />
+            {/* Feature Cards - 2x2 Grid */}
+            <div className="lg:col-span-2 lg:order-2 order-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className=" flex flex-col gap-3">
+                  <Image
+                    src="/assets/feature1.png"
+                    alt="Property Insurance"
+                    width={60}
+                    height={60}
+                  />
                   <h4 className="font-semibold mb-2">Property Insurance</h4>
                   <p className="text-gray-600 text-sm">
-                    We offer our customer property protection of liability
-                    coverage and insurance for their better life.
+                    We offer our customer property
+                    <br />
+                    protection of liability coverage
+                    <br />
+                    and insurance for their better life.
                   </p>
-                </CardContent>
-              </Card>
+                </div>
 
-              <Card>
-                <CardContent className="p-6">
-                  <TrendingDown className="w-8 h-8 text-blue-600 mb-4" />
+                <div className=" flex flex-col gap-3">
+                  <Image
+                    src="/assets/feature2.png"
+                    alt="Lowest Commission"
+                    width={60}
+                    height={60}
+                  />
                   <h4 className="font-semibold mb-2">Lowest Commission</h4>
                   <p className="text-gray-600 text-sm">
-                    You no longer have to negotiate commissions and haggle with
-                    other agents it only cost 2%!
+                    You no longer have to negotiate
+                    <br />
+                    commissions and haggle with other agents.
+                    <br />
+                    It only costs 2%!
                   </p>
-                </CardContent>
-              </Card>
-            </div>
+                </div>
 
-            <div className="space-y-6">
-              <Card>
-                <CardContent className="p-6">
-                  <DollarSign className="w-8 h-8 text-blue-600 mb-4" />
+                <div className=" flex flex-col gap-3">
+                  <Image
+                    src="/assets/feature3.png"
+                    alt="Best Price"
+                    width={60}
+                    height={60}
+                  />
                   <h4 className="font-semibold mb-2">Best Price</h4>
                   <p className="text-gray-600 text-sm">
-                    Not sure what you should be charging for your property? No
-                    need to worry, let us do the numbers for you.
+                    Not sure what you should be charging
+                    <br />
+                    for your property? No need to worry,
+                    <br />
+                    let us do the numbers for you.
                   </p>
-                </CardContent>
-              </Card>
+                </div>
 
-              <Card>
-                <CardContent className="p-6">
-                  <Settings className="w-8 h-8 text-blue-600 mb-4" />
+                <div className=" flex flex-col gap-3">
+                  <Image
+                    src="/assets/feature4.png"
+                    alt="Overall Control"
+                    width={60}
+                    height={60}
+                  />
                   <h4 className="font-semibold mb-2">Overall Control</h4>
                   <p className="text-gray-600 text-sm">
-                    Get a virtual tour, and schedule visits before you rent or
-                    buy any properties. You get overall control.
+                    Get a virtual tour, and schedule visits before
+                    <br />
+                    you rent or buy any properties.
+                    <br />
+                    You get overall control.
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Property Listings */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Based on your location</h2>
-            <p className="text-gray-600">
-              Some of our picked properties near your location.
-            </p>
-          </div>
+      <PropertyListings />
+      <DoorsSection />
+      <NewsroomSection />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {[
-              {
-                image: "/placeholder.svg?height=200&width=300",
-                price: "$2,095",
-                period: "/month",
-                title: "Palm Harbor",
-                address: "2699 Green Valley, Highland Lake, FL",
-                beds: 3,
-                baths: 2,
-                sqft: "5x7",
-              },
-              {
-                image: "/placeholder.svg?height=200&width=300",
-                price: "$2,700",
-                period: "/month",
-                title: "Beverly Springfield",
-                address: "2821 Lake Sevilla, Palm Harbor, TX",
-                beds: 4,
-                baths: 2,
-                sqft: "6x7.5",
-              },
-              {
-                image: "/placeholder.svg?height=200&width=300",
-                price: "$4,550",
-                period: "/month",
-                title: "Faulkner Ave",
-                address: "909 Woodland St, Michigan, IN",
-                beds: 4,
-                baths: 3,
-                sqft: "8x10",
-              },
-              {
-                image: "/placeholder.svg?height=200&width=300",
-                price: "$2,400",
-                period: "/month",
-                title: "St. Crystal",
-                address: "210 US Highway, Highland Lake, FL",
-                beds: 4,
-                baths: 2,
-                sqft: "6x8",
-              },
-              {
-                image: "/placeholder.svg?height=200&width=300",
-                price: "$1,500",
-                period: "/month",
-                title: "Cove Red",
-                address: "243 Curlew Road, Palm Harbor, TX",
-                beds: 2,
-                baths: 1,
-                sqft: "5x7.5",
-              },
-              {
-                image: "/placeholder.svg?height=200&width=300",
-                price: "$1,600",
-                period: "/month",
-                title: "Tarpon Bay",
-                address: "103 Lake Shores, Michigan, IN",
-                beds: 4,
-                baths: 1,
-                sqft: "5x7",
-              },
-            ].map((property, index) => (
-              <Card
-                key={index}
-                className="overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                <div className="relative">
-                  <Image
-                    src={property.image || "/placeholder.svg"}
-                    alt={property.title}
-                    width={300}
-                    height={200}
-                    className="w-full h-48 object-cover"
-                  />
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="absolute top-3 right-3 bg-white/80 hover:bg-white"
-                  >
-                    <Heart className="w-4 h-4" />
-                  </Button>
-                </div>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-baseline">
-                      <span className="text-xl font-bold text-blue-600">
-                        {property.price}
-                      </span>
-                      <span className="text-gray-500 ml-1">
-                        {property.period}
-                      </span>
-                    </div>
-                  </div>
-                  <h3 className="font-semibold mb-1">{property.title}</h3>
-                  <p className="text-gray-600 text-sm mb-3 flex items-center">
-                    <MapPin className="w-3 h-3 mr-1" />
-                    {property.address}
-                  </p>
-                  <div className="flex items-center space-x-4 text-sm text-gray-600">
-                    <div className="flex items-center">
-                      <Bed className="w-4 h-4 mr-1" />
-                      {property.beds} Beds
-                    </div>
-                    <div className="flex items-center">
-                      <Bath className="w-4 h-4 mr-1" />
-                      {property.baths} Bathrooms
-                    </div>
-                    <div className="flex items-center">
-                      <Square className="w-4 h-4 mr-1" />
-                      {property.sqft} m²
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              Browse more properties
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Door Gallery */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Based on your location</h2>
-            <p className="text-gray-600">
-              Some of our picked properties near your location.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-            {[1, 2, 3, 4, 5, 6].map((index) => (
-              <div
-                key={index}
-                className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden"
-              >
-                <Image
-                  src={`/placeholder.svg?height=300&width=200&query=door design ${index}`}
-                  alt={`Door ${index}`}
-                  width={200}
-                  height={300}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Button className="bg-blue-600 hover:bg-blue-700">View More</Button>
-          </div>
-        </div>
-      </section>
-
-      {/* News Section */}
-  
-
-      {/* Landowner CTA */}
-      <section className="py-16">
+      <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Are you a landowner?</h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Put your email address and get listed.
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Are you a landowner?
+          </h2>
+          <p className="text-gray-600 mb-10 max-w-2xl mx-auto text-base md:text-lg">
+            Share your property with thousands of interested buyers. Enter your
+            email to get listed today.
           </p>
 
-          <div className="max-w-md mx-auto flex gap-4">
-            <Input placeholder="Enter your email address" className="flex-1" />
-            <Button className="bg-blue-600 hover:bg-blue-700">Submit</Button>
+          <div className="relative max-w-xl mx-auto">
+            <Input
+              type="email"
+              placeholder="Enter your email address"
+              className="pr-32 h-14 w-full"
+            />
+            <Button
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-5 h-10 rounded-lg text-white bg-airbanBlue hover:bg-airbanBlue/90"
+              type="submit"
+            >
+              Submit
+            </Button>
+          </div>
+          <div className="py-10 text-sm text-gray-500">
+            <p>
+              Join <span className="text-blue-600 font-medium">1000+</span>{" "}
+              other landowners and get your property seen
+              <br />
+              by thousands of potential buyers.
+            </p>
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-blue-600 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
-                  <div className="w-6 h-6 bg-blue-600 rounded-sm"></div>
-                </div>
-                <span className="text-xl font-bold">Airban</span>
-              </div>
-              <p className="text-blue-100 text-sm">
-                © 2021 Airban. All rights reserved.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">SELL A HOME</h4>
-              <ul className="space-y-2 text-sm text-blue-100">
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Request an offer
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Reviews
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Stories
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">BUY, RENT AND SELL</h4>
-              <ul className="space-y-2 text-sm text-blue-100">
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Buy and sell properties
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Rent home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Builder trade-up
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">ABOUT</h4>
-              <ul className="space-y-2 text-sm text-blue-100">
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Company
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    How it works
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white">
-                    Investors
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-blue-500 mt-8 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center text-sm text-blue-100">
-              <div className="flex space-x-6 mb-4 md:mb-0">
-                <Link href="#" className="hover:text-white">
-                  Terms & Privacy
-                </Link>
-                <Link href="#" className="hover:text-white">
-                  Cookie Policy
-                </Link>
-              </div>
-              <div className="flex space-x-4">
-                <Link href="#" className="hover:text-white">
-                  Facebook
-                </Link>
-                <Link href="#" className="hover:text-white">
-                  Twitter
-                </Link>
-                <Link href="#" className="hover:text-white">
-                  Instagram
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
-}
+};
+
+export default page;
