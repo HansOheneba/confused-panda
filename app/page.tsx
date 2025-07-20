@@ -369,73 +369,7 @@ export default function Home() {
       </section>
 
       {/* News Section */}
-      <section className="py-16 bg-blue-600 text-white">
-        <div className="container mx-auto px-4">
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold mb-4">Airban Newsroom</h2>
-            <h3 className="text-2xl mb-4">Stories and Interviews</h3>
-            <p className="text-blue-100 max-w-md">
-              Subscribe to learn about new product features, the latest in
-              technology, solutions, and updates.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="bg-blue-700 border-blue-500">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center mr-3">
-                    <Play className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white">
-                      Optimizing electricity use for business profitability
-                    </h4>
-                  </div>
-                </div>
-                <p className="text-blue-100 text-sm">
-                  Learn how to reduce your electricity bills and increase
-                  profitability through smart energy management.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white text-gray-900">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-                    <User className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">The Airban Journey</h4>
-                  </div>
-                </div>
-                <p className="text-gray-600 text-sm">
-                  Discover how Airban started and our mission to revolutionize
-                  the real estate industry.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-blue-700 border-blue-500">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center mr-3">
-                    <MessageCircle className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white">Get in</h4>
-                  </div>
-                </div>
-                <p className="text-blue-100 text-sm">
-                  Join our community and stay updated with the latest news and
-                  opportunities.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+  
 
       {/* Landowner CTA */}
       <section className="py-16">
