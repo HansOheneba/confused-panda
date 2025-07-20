@@ -22,40 +22,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import FAQSection from "@/components/FAQSection";
 import { useState } from "react";
 import { properties as propertyList } from "@/lib/properties";
 
-function FAQItem({
-  question,
-  answer,
-  isOpen,
-  onToggle,
-}: {
-  question: string;
-  answer: string;
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <Collapsible open={isOpen} onOpenChange={onToggle}>
-      <CollapsibleTrigger className="flex w-full items-center justify-between py-4 text-left font-medium hover:underline">
-        {question}
-        {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-      </CollapsibleTrigger>
-      <CollapsibleContent className="pb-4 text-muted-foreground">
-        {answer}
-      </CollapsibleContent>
-    </Collapsible>
-  );
-}
+// ...existing code...
 
 export default function PropertiesPage() {
-  const [openFAQ, setOpenFAQ] = useState<number | null>(0);
+  // ...existing code...
 
   const faqs = [
     {
@@ -86,7 +60,7 @@ export default function PropertiesPage() {
       {/* Hero Section */}
       <section className="">
         <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-br from-gray-200  backdrop-blur-sm rounded-md p-8 max-w-6xl mx-auto">
+          <div className="bg-gradient-to-br from-gray-200 shadow-lg rounded-md p-16 max-w-6xl mx-auto">
             <div className="text-left mb-8">
               <h1 className="text-xl md:text-5xl font-medium mb-4">
                 Find Your Dream Property
@@ -103,7 +77,7 @@ export default function PropertiesPage() {
         </div>
       </section>
       {/* Search Bar */}
-      <div className="bg-white rounded-xl p-3 shadow-xl border border-gray-100 text-black relative z-10 max-w-2xl mx-auto -mt-12 mb-5">
+      <div className="bg-white rounded-xl p-3 shadow-xl border border-gray-100 text-black relative z-10 max-w-2xl mx-auto -mt-16 mb-5">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <Input
@@ -193,10 +167,10 @@ export default function PropertiesPage() {
       <section className="py-32 bg-gradient-to-b from-transparent via-white to-white">
         <div className="container mx-auto px-4">
           <div className="text-left mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Discover a World of Possibilities
             </h2>
-            <p className="text-md text-gray-100 max-w-3xl">
+            <p className="text-sm max-w-3xl">
               Our portfolio of properties is as diverse as your dreams. Explore
               the following categories to find the perfect property that
               resonates with your vision of home
@@ -229,9 +203,7 @@ export default function PropertiesPage() {
                     <span className="text-base font-medium text-gray-900">
                       ₵{property.price.replace(/[$,]/g, "")}
                     </span>
-                    <Button className="">
-                      View Property Details
-                    </Button>
+                    <Button className="">View Property Details</Button>
                   </div>
                 </div>
               </div>
@@ -241,36 +213,7 @@ export default function PropertiesPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-gray-600">
-                If there are questions you want to ask. We will answer all your
-                questions.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <div key={index} className="border-b border-gray-200">
-                  <FAQItem
-                    question={faq.question}
-                    answer={faq.answer}
-                    isOpen={openFAQ === index}
-                    onToggle={() =>
-                      setOpenFAQ(openFAQ === index ? null : index)
-                    }
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <FAQSection faqs={faqs} />
     </div>
   );
 }
