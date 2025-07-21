@@ -18,7 +18,7 @@ export default function NotFound() {
         <h1 className="text-3xl font-bold mb-2 text-white">Ooops!</h1>
         <p className=" text-gray-300 mb-6 text-center max-w-md">
           Page Not Found, The page you are looking for has either been moved, or
-          never existed.
+          is being worked on.
         </p>
         <Link href="/">
           <Button>

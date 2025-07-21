@@ -203,7 +203,9 @@ export default function PropertiesPage() {
                     <span className="text-base font-medium text-gray-900">
                       ₵{property.price.replace(/[$,]/g, "")}
                     </span>
-                    <Button className="">View Property Details</Button>
+                    <a href={`/properties/${property.id}`}>
+                      <Button className="">View Property Details</Button>
+                    </a>
                   </div>
                 </div>
               </div>
