@@ -14,21 +14,26 @@ const page = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[80vh] bg-[url('/assets/hero.png')] bg-cover bg-center bg-no-repeat w-full px-4">
-        <div className="relative z-20 flex flex-col h-full justify-center items-start w-full px-6">
-          <div className=" text-left max-w-4xl text-white">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+      <section className="relative py-12 md:py-0 h-auto md:h-[80vh] bg-[url('/assets/hero.png')] bg-cover bg-center bg-no-repeat w-full px-4">
+        <div className="relative z-20 flex flex-col md:justify-center items-start w-full h-auto md:h-full px-4 sm:px-6 md:px-10">
+          <div className="text-left max-w-2xl text-white mb-8">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold my-4 sm:mb-6 pt-10">
               Buy, rent or sell your <br /> property easily
             </h1>
-            <p className="text-xl md:text-2xl mb-8 leading-relaxed">
-              A great platform to buy, sell, or even rent your <br /> properties
-              without any commisions.
+            <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 leading-relaxed">
+              A great platform to buy, sell, or even rent your{" "}
+              <br className="hidden sm:block" />
+              properties without any commissions.
             </p>
           </div>
-          <PropertyTabs />
+          <div className="w-full sm:max-w-xl">
+            <PropertyTabs />
+          </div>
         </div>
+
+        {/* Image only visible on medium screens and above */}
         <Image
-          className="absolute bottom-0 right-0 w-1/2 lg:w-[500px] z-10 hidden md:block"
+          className="absolute bottom-0 right-0 w-[300px] md:w-[400px] lg:w-[500px] z-10 hidden md:block"
           src="/assets/heroHouse.png"
           alt="Hero Image"
           width={500}
