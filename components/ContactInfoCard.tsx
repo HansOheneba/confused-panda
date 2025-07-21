@@ -15,7 +15,7 @@ export default function ContactInfoCard() {
         </p>
       </div>
 
-      <hr />
+      <hr className="border-gray-400" />
 
       <div className="space-y-4 text-sm">
         {/* Email */}
