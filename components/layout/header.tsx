@@ -95,8 +95,8 @@ export function Header() {
         {/* Mobile Nav Menu */}
         {menuOpen && (
           <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-4 space-y-4 text-white">
-            <NavLinks mobile />
-            <Button className="w-full bg-white text-blue-800 hover:bg-gray-100">
+            <NavLinks mobile onClickLink={() => setMenuOpen(false)} />
+            <Button className="w-full bg-white text-blue-800 hover:bg-gray-100" onClick={() => setMenuOpen(false)}>
               Brochure
             </Button>
           </div>
@@ -106,25 +106,26 @@ export function Header() {
   );
 }
 
-function NavLinks({ mobile = false }: { mobile?: boolean }) {
+function NavLinks({ mobile = false, onClickLink }: { mobile?: boolean; onClickLink?: () => void }) {
   const classes = mobile
     ? "block text-white text-lg font-medium"
     : "text-white hover:text-blue-200 text-sm";
+  const handleClick = onClickLink ? onClickLink : undefined;
   return (
     <>
-      <Link href="/" className={classes}>
+      <Link href="/" className={classes} onClick={handleClick}>
         Home
       </Link>
-      <Link href="/doors" className={classes}>
+      <Link href="/doors" className={classes} onClick={handleClick}>
         Our Doors
       </Link>
-      <Link href="/properties" className={classes}>
+      <Link href="/properties" className={classes} onClick={handleClick}>
         Properties
       </Link>
-      <Link href="/contact" className={classes}>
+      <Link href="/contact" className={classes} onClick={handleClick}>
         Contact Us
       </Link>
-      <Link href="/about" className={classes}>
+      <Link href="/about" className={classes} onClick={handleClick}>
         About Us
       </Link>
     </>
