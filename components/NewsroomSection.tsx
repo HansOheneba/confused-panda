@@ -53,62 +53,66 @@ export const NewsroomSection = () => {
   const featuredStories = getFeaturedStories();
 
   return (
-    <section className="py-16 bg-[#134B86] text-white">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-start mb-12">
-          <div>
-            <h2 className="text-3xl font-bold mb-4">Airban Newsroom</h2>
-            <h3 className="text-2xl mb-4">Stories and Interviews</h3>
+    <div className="bg-airbanBlue">
+      <section className="py-16 max-w-6xl mx-auto text-white">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-start mb-12">
+            <div>
+              <h2 className="text-3xl font-bold mb-4">Airban Newsroom</h2>
+              <h3 className="text-blue-100 mb-4">Stories and Interviews</h3>
+            </div>
+
+            <p className="text-blue-100 max-w-md">
+              Subscribe to learn about new product features, the latest in
+              technology, solutions, and updates.
+            </p>
           </div>
 
-          <p className="text-blue-100 max-w-md">
-            Subscribe to learn about new product features, the latest in
-            technology, solutions, and updates.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {featuredStories.map((story, index) => {
-            const bgColor = getCardColor(index);
-            return (
-              <Card
-                key={story.id}
-                className={getCardStyle(index)}
-                style={{ backgroundColor: bgColor }}
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-start mb-4">
-                    <div
-                      className={`w-10 h-10 ${getCategoryColor(
-                        story.category
-                      )} rounded-full flex items-center justify-center mr-3 flex-shrink-0`}
-                    >
-                      {getCategoryIcon(story.category)}
-                    </div>
-                    <div className="flex-1">
-                      <h4
-                        className={`font-semibold mb-2 ${getTitleStyle(index)}`}
+          <div className="grid md:grid-cols-3 gap-6">
+            {featuredStories.map((story, index) => {
+              const bgColor = getCardColor(index);
+              return (
+                <Card
+                  key={story.id}
+                  className={getCardStyle(index)}
+                  style={{ backgroundColor: bgColor }}
+                >
+                  <CardContent className="p-6">
+                    <div className="flex items-start mb-4">
+                      <div
+                        className={`w-10 h-10 ${getCategoryColor(
+                          story.category
+                        )} rounded-full flex items-center justify-center mr-3 flex-shrink-0`}
                       >
-                        {story.title}
-                      </h4>
+                        {getCategoryIcon(story.category)}
+                      </div>
+                      <div className="flex-1">
+                        <h4
+                          className={`font-semibold mb-2 ${getTitleStyle(
+                            index
+                          )}`}
+                        >
+                          {story.title}
+                        </h4>
+                      </div>
                     </div>
-                  </div>
 
-                  <p className={`text-sm mb-4 ${getTextStyle(index)}`}>
-                    {story.description}
-                  </p>
+                    <p className={`text-sm mb-4 ${getTextStyle(index)}`}>
+                      {story.description}
+                    </p>
 
-                  <div
-                    className={`flex items-center text-xs ${getTextStyle(
-                      index
-                    )}`}
-                  ></div>
-                </CardContent>
-              </Card>
-            );
-          })}
+                    <div
+                      className={`flex items-center text-xs ${getTextStyle(
+                        index
+                      )}`}
+                    ></div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
