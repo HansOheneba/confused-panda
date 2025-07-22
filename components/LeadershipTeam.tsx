@@ -7,7 +7,7 @@ const teamMembers = [
     name: "Benjamin Eddie Cudjoe",
     title: "Managing Director",
     description:
-      "Ben has ten (10) years of experience in building engineering and property management. He started his professional career as a building technologist and project manager with Krane Construction Ltd....",
+      "Ben has ten (10) years of experience in building engineering and property management. He started his professional career as a building technologist and project manager with Krane Construction Ltd.",
     image: "/assets/eddie.png",
     reverse: false,
   },
@@ -15,7 +15,7 @@ const teamMembers = [
     name: "Sandra Osei-Bonsu",
     title: "Chief Risk Officer",
     description:
-      "Sandra is responsible for identifying, analyzing and mitigating risk that may be associated with the company’s business operations. She also ensures that all properties scheduled for listing,...",
+      "Sandra is responsible for identifying, analyzing and mitigating risk that may be associated with the company’s business operations. She also ensures that all properties scheduled for listing.",
     image: "/assets/sandra.png",
     reverse: true,
   },
@@ -23,7 +23,7 @@ const teamMembers = [
     name: "Dennis Owusu Ansah",
     title: "IT Advisor",
     description:
-      "Sandra is responsible for identifying, analyzing and mitigating risk that may be associated with the company’s business operations. She also ensures that all properties scheduled for listing,...",
+      "Sandra is responsible for identifying, analyzing and mitigating risk that may be associated with the company’s business operations. She also ensures that all properties scheduled for listing.",
     image: "/assets/sandra.png",
     reverse: false,
   },
@@ -38,8 +38,11 @@ export default function LeadershipTeam() {
             Leadership Team
           </h2>
           <p className="text-gray-600 mb-12 max-w-lg">
-            Complete the form below to send us a message. Our support team will
-            promptly respond to your request.
+            At the heart of our company is a dynamic leadership team driven by a
+            shared vision: to reshape how people engage with real estate. With
+            diverse backgrounds in technology, business, design, and customer
+            experience, our leaders bring innovation, strategy, and empathy to
+            every decision.
           </p>
         </div>
 
