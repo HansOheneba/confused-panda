@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
@@ -68,7 +69,7 @@ export function Header() {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-6">
               <NavLinks />
             </nav>
           </div>
@@ -120,27 +121,41 @@ function NavLinks({
   mobile?: boolean;
   onClickLink?: () => void;
 }) {
-  const classes = mobile
-    ? "block text-white text-lg font-medium"
-    : "text-white hover:text-blue-200 text-sm";
+  const pathname = usePathname();
+  const links = [
+    { href: "/", label: "Home" },
+    { href: "/doors", label: "Our Doors" },
+    { href: "/properties", label: "Properties" },
+    { href: "/contact", label: "Contact Us" },
+    { href: "/about", label: "About Us" },
+  ];
   const handleClick = onClickLink ? onClickLink : undefined;
+
   return (
     <>
-      <Link href="/" className={classes} onClick={handleClick}>
-        Home
-      </Link>
-      <Link href="/doors" className={classes} onClick={handleClick}>
-        Our Doors
-      </Link>
-      <Link href="/properties" className={classes} onClick={handleClick}>
-        Properties
-      </Link>
-      <Link href="/contact" className={classes} onClick={handleClick}>
-        Contact Us
-      </Link>
-      <Link href="/about" className={classes} onClick={handleClick}>
-        About Us
-      </Link>
+      {links.map((link) => {
+        const isActive =
+          link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+
+        return (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={handleClick}
+            className={`relative flex flex-col items-center ${
+              mobile ? "text-lg font-medium" : "text-white text-sm font-medium"
+            }`}
+          >
+            <span>{link.label}</span>
+            <div
+              className={`h-[2px] mt-1 rounded bg-white origin-left transition-transform duration-300 ease-in-out w-full ${
+                isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
+              }`}
+              style={{ transform: `scaleX(${isActive ? 1 : 0})` }}
+            />
+          </Link>
+        );
+      })}
     </>
   );
 }

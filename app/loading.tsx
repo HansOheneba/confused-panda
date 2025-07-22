@@ -5,11 +5,11 @@ import { Spinner } from "@heroui/react";
 
 export default function Loading() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white  text-black ">
+    <div className="min-h-screen flex flex-col items-center justify-center  text-white ">
       {/* Logo with subtle float animation */}
       <div className="animate-[float_3s_ease-in-out_infinite]">
         <Image
-          src="/assets/logoFooter.png"
+          src="/assets/airbanWhiteLogo.png"
           alt="Airban Logo"
           width={120}
           height={120}
