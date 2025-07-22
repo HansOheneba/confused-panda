@@ -71,11 +71,11 @@ export function Header() {
           {/* Right Side */}
           <div className="flex items-center space-x-4">
             {/* Desktop Buttons */}
-            <Link href="/cart" className="hidden md:inline">
-              
+            <div className="px-3">
+              <Link href="/cart" className="hidden md:inline">
                 <ShoppingCart size={18} className="text-white" />
-            
-            </Link>
+              </Link>
+            </div>
             <Button
               variant="secondary"
               className="hidden md:flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100"

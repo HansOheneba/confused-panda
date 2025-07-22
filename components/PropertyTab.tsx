@@ -43,7 +43,7 @@ export default function PropertyTabs() {
         <div className="flex flex-col sm:flex-row flex-wrap sm:flex-1 divide-y sm:divide-y-0 sm:divide-x divide-slate-200">
           {activeTab === "buy" ? (
             <>
-              <div className=" sm:px-6 flex-1">
+              <div className=" px-3 flex-1">
                 <label className="block text-slate-500 mb-1 text-xs">Location</label>
                 <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {buyLocations.map((loc) => (
@@ -53,7 +53,7 @@ export default function PropertyTabs() {
                   ))}
                 </select>
               </div>
-              <div className=" sm:px-6 flex-1">
+              <div className=" px-3 flex-1">
                 <label className="block text-slate-500 mb-1 text-xs">Price Range</label>
                 <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {priceRanges.map((range) => (
@@ -66,7 +66,7 @@ export default function PropertyTabs() {
             </>
           ) : (
             <>
-              <div className=" sm:px-6 flex-1">
+              <div className=" px-3 flex-1">
                 <label className="block text-slate-500 mb-1 text-xs">
                   Property Type
                 </label>
@@ -78,7 +78,7 @@ export default function PropertyTabs() {
                   ))}
                 </select>
               </div>
-              <div className=" sm:px-6 flex-1">
+              <div className=" px-3 flex-1">
                 <label className="block text-slate-500 mb-1 text-xs">Location</label>
                 <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {sellLocations.map((loc) => (

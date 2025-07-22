@@ -18,7 +18,7 @@ export const properties: Property[] = [
     id: "1",
     image:
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300&h=200&fit=crop",
-    price: "GHS 2,095",
+    price: "2,095",
     period: "/month",
     title: "Palm Harbor",
     address: "2699 Green Valley, East Legon, Accra",
@@ -34,7 +34,7 @@ export const properties: Property[] = [
     id: "2",
     image:
       "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=300&h=200&fit=crop",
-    price: "GHS 2,700",
+    price: "2,700",
     period: "/month",
     title: "Beverly Springfield",
     address: "2821 Lake Sevilla, Airport Residential, Accra",
@@ -50,7 +50,7 @@ export const properties: Property[] = [
     id: "3",
     image:
       "https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=300&h=200&fit=crop",
-    price: "GHS 4,550",
+    price: "4,550",
     period: "/month",
     title: "Faulkner Ave",
     address: "909 Woodland St, Ridge, Accra",
@@ -66,7 +66,7 @@ export const properties: Property[] = [
     id: "4",
     image:
       "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=300&h=200&fit=crop",
-    price: "GHS 2,400",
+    price: "2,400",
     period: "/month",
     title: "St. Crystal",
     address: "210 US Highway, Kumasi City Center",
@@ -82,7 +82,7 @@ export const properties: Property[] = [
     id: "5",
     image:
       "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=300&h=200&fit=crop",
-    price: "GHS 1,500",
+    price: "1,500",
     period: "/month",
     title: "Cove Red",
     address: "243 Curlew Road, Takoradi Beachfront",
@@ -98,7 +98,7 @@ export const properties: Property[] = [
     id: "6",
     image:
       "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=300&h=200&fit=crop",
-    price: "GHS 1,600",
+    price: "1,600",
     period: "/month",
     title: "Tarpon Bay",
     address: "103 Lake Shores, Cape Coast",
