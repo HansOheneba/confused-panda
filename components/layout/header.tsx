@@ -102,7 +102,7 @@ export function Header() {
           <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-4 space-y-4 text-white">
             <NavLinks mobile onClickLink={() => setMenuOpen(false)} />
             <Button
-              className="w-full bg-white text-blue-800 hover:bg-gray-100"
+              className="w-full bg-white text-airbanBlue hover:bg-gray-100"
               onClick={() => setMenuOpen(false)}
             >
               Brochure

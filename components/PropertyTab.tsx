@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useState } from "react";
+import { Button } from "./ui/button";
 
 export default function PropertyTabs() {
   const [activeTab, setActiveTab] = useState<"buy" | "sell">("buy");
 
-  // Sample dropdown options
   const buyLocations = ["Spintex, Accra", "East Legon", "Dzorwulu"];
   const priceRanges = ["GH₵ 100k - 200k", "GH₵ 200k - 500k", "GH₵ 500k+"];
 
@@ -12,25 +12,25 @@ export default function PropertyTabs() {
   const sellLocations = ["East Legon", "Airport Residential", "Tema"];
 
   return (
-    <div className="w-full max-w-4xl">
+    <div className="w-full px-4 sm:px-0 max-w-4xl mx-auto">
       {/* Tabs */}
-      <div className="flex w-fit text-black font-semibold text-sm">
+      <div className="flex w-full sm:w-fit text-black font-semibold text-sm">
         <button
           onClick={() => setActiveTab("buy")}
-          className={`border-b-2 px-6 sm:px-10 py-2 bg-white rounded-tl-md ${
+          className={`border-b-2 px-4 sm:px-8 py-2 bg-white rounded-tl-md transition-all duration-200 ${
             activeTab === "buy"
               ? "border-blue-400 border-b-4 text-blue-800"
-              : "border-gray-400 border-b-2 hover:border-gray-300"
+              : "border-gray-300 border-b-2 hover:border-gray-400"
           }`}
         >
           Buy
         </button>
         <button
           onClick={() => setActiveTab("sell")}
-          className={`border-b-2 px-6 sm:px-10 py-2 bg-white rounded-tr-md ${
+          className={`border-b-2 px-4 sm:px-8 py-2 bg-white rounded-tr-md transition-all duration-200 ${
             activeTab === "sell"
               ? "border-blue-400 border-b-4 text-blue-800"
-              : "border-gray-400 border-b-2 hover:border-gray-300"
+              : "border-gray-300 border-b-2 hover:border-gray-400"
           }`}
         >
           Sell
@@ -38,27 +38,26 @@ export default function PropertyTabs() {
       </div>
 
       {/* Tab Content */}
-      <div className="flex flex-col sm:flex-row flex-wrap items-center bg-white max-w-xl text-black text-sm rounded-tr-md rounded-b-md">
-        {/* Info Sections */}
-        <div className="flex flex-col sm:flex-row flex-1">
+      <div className="flex flex-col sm:flex-row flex-wrap items-stretch bg-white text-black text-sm rounded-b-md sm:rounded-tr-md shadow-sm border border-t-0 border-slate-200 p-3">
+        {/* Inputs Section */}
+        <div className="flex flex-col sm:flex-row flex-wrap sm:flex-1 divide-y sm:divide-y-0 sm:divide-x divide-slate-200">
           {activeTab === "buy" ? (
             <>
-              <div className="text-slate-500 py-4 px-5 sm:px-7">
-                Location <br />
-                <select className="text-black font-bold bg-transparent appearance-none focus:outline-none">
+              <div className=" sm:px-6 flex-1">
+                <label className="block text-slate-500 mb-1 text-xs">Location</label>
+                <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {buyLocations.map((loc) => (
-                    <option key={loc} value={loc} className="text-black p-5">
+                    <option key={loc} value={loc}>
                       {loc}
                     </option>
                   ))}
                 </select>
               </div>
-              <div className="hidden sm:block border-slate border-l-2 border-solid h-10 my-auto"></div>
-              <div className="text-slate-500 py-4 px-5 sm:px-7">
-                Price Range <br />
-                <select className="text-black font-bold bg-transparent appearance-none focus:outline-none">
+              <div className=" sm:px-6 flex-1">
+                <label className="block text-slate-500 mb-1 text-xs">Price Range</label>
+                <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {priceRanges.map((range) => (
-                    <option key={range} value={range} className="text-black">
+                    <option key={range} value={range}>
                       {range}
                     </option>
                   ))}
@@ -67,22 +66,23 @@ export default function PropertyTabs() {
             </>
           ) : (
             <>
-              <div className="text-slate-500 py-4 px-5 sm:px-7">
-                Property Type <br />
-                <select className="text-black font-bold bg-transparent appearance-none focus:outline-none">
+              <div className=" sm:px-6 flex-1">
+                <label className="block text-slate-500 mb-1 text-xs">
+                  Property Type
+                </label>
+                <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {sellTypes.map((type) => (
-                    <option key={type} value={type} className="text-black">
+                    <option key={type} value={type}>
                       {type}
                     </option>
                   ))}
                 </select>
               </div>
-              <div className="hidden sm:block border-slate border-l-2 border-solid h-10 my-auto"></div>
-              <div className="text-slate-500 py-4 px-5 sm:px-7">
-                Location <br />
-                <select className="text-black font-bold bg-transparent appearance-none focus:outline-none">
+              <div className=" sm:px-6 flex-1">
+                <label className="block text-slate-500 mb-1 text-xs">Location</label>
+                <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {sellLocations.map((loc) => (
-                    <option key={loc} value={loc} className="text-black">
+                    <option key={loc} value={loc}>
                       {loc}
                     </option>
                   ))}
@@ -92,13 +92,13 @@ export default function PropertyTabs() {
           )}
         </div>
 
-        {/* Action Button */}
-        <div className="border-slate border-t-2 sm:border-t-0 sm:border-l-2 border-solid w-full sm:w-auto cursor-pointer">
-          <div className="p-4 sm:px-8 sm:py-0 flex justify-start sm:justify-center items-center h-full">
-            <Link href={"/properties"}>
-              <button className="w-full sm:w-auto text-white bg-blue-800 rounded-md py-2 px-6 font-semibold">
+        {/* CTA Button */}
+        <div className="border-t sm:border-t-0 sm:border-l border-slate-200 w-full sm:w-auto">
+          <div className="p-4 sm:px-6 flex items-center h-full justify-center">
+            <Link href="/properties">
+              <Button className="">
                 {activeTab === "buy" ? "Browse Properties" : "List Property"}
-              </button>
+              </Button>
             </Link>
           </div>
         </div>
