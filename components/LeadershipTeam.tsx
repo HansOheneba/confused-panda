@@ -62,7 +62,7 @@ export default function LeadershipTeam() {
               </div>
               <div className="text-gray-800 max-w-xl p-5">
                 <h3 className="font-semibold text-lg">{member.name}</h3>
-                <p className="text-sm text-blue-600 font-medium mb-2">
+                <p className="text-sm text-airbanBlue font-medium mb-2">
                   {member.title}
                 </p>
                 <p className="text-sm text-gray-600 leading-relaxed">
