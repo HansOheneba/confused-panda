@@ -167,7 +167,7 @@ export default function PropertiesPage() {
 
       {/* Properties Section */}
       <section className="py-32 bg-gradient-to-b from-transparent via-white to-white">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-left mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Discover a World of Possibilities
@@ -179,7 +179,7 @@ export default function PropertiesPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 ">
             {propertyList.map((property) => (
               <div
                 key={property.id}
@@ -206,7 +206,7 @@ export default function PropertiesPage() {
                       ₵{property.price.replace(/[$,]/g, "")}
                     </span>
                     <a href={`/properties/${property.id}`}>
-                      <Button className="">View Property Details</Button>
+                      <Button className="">View Details</Button>
                     </a>
                   </div>
                 </div>
