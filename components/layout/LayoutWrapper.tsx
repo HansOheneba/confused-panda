@@ -27,7 +27,7 @@ export default function ClientLayoutWrapper({
   return (
     <>
       {splashVisible && (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center animate-fade animate-duration-[800ms] animate-ease-out animate-fill-forwards">
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center animate-fade animate-duration-[800ms] animate-ease-out animate-fill-forwards pointer-events-none">
           <Image
             src="/assets/airbanWhiteLogo.png"
             alt="Airban Logo"

@@ -1,10 +1,22 @@
+'use client';
+
 import Link from "next/link";
 import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export function Footer() {
+  const [showFooter, setShowFooter] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowFooter(true), 2200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!showFooter) return null;
+
   return (
-    <footer className="bg-gradient-to-b from-[#D5E9FF] to-white py-12 px-6">
+    <footer className="bg-gradient-to-b from-[#D5E9FF] to-white py-12 px-6 mt-auto animate-fade-in-up">
       <div className="container max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Logo */}

@@ -15,8 +15,8 @@ export function Header() {
 
   useEffect(() => {
     setMounted(true);
-    // Show header after a short delay for animation
-    const timer = setTimeout(() => setShowHeader(true), 120);
+    // Show header after splash is fully gone (2200ms)
+    const timer = setTimeout(() => setShowHeader(true), 2200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -41,11 +41,16 @@ export function Header() {
   }, [mounted]);
 
   if (!mounted || !showHeader) return null;
+
+  // Animate in on first show
+  const initialShowClass = showHeader ? "animate-fade-in-down" : "";
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out transform
+      className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 ease-in-out transform
   ${show ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
   ${isScrolled ? "bg-black/20 backdrop-blur-sm py-3" : "bg-transparent py-6"}
+  ${initialShowClass}
 `}
     >
       <div className="container mx-auto px-4 md:px-6">

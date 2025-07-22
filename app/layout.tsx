@@ -55,13 +55,11 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-airbanBlue`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-airbanBlue animate-fade min-h-screen flex flex-col `}
       >
-        <ClientLayoutWrapper>
-          <Header />
-          {children}
-          <Footer />
-        </ClientLayoutWrapper>
+        <Header />
+        <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+        <Footer />
       </body>
     </html>
   );
