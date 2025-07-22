@@ -78,7 +78,7 @@ export default function PropertiesPage() {
       </section>
       {/* Search Bar */}
       <div className="px-8">
-        <div className="bg-white rounded-xl p-3 shadow-xl border border-gray-100 text-black relative z-10 max-w-2xl mx-auto -mt-16 mb-5">
+        <div className="bg-white rounded-xl p-3 shadow-xl border border-gray-100 text-black relative z-10 max-w-3xl mx-auto -mt-16 mb-5">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <Input
