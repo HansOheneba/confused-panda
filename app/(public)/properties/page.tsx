@@ -202,8 +202,8 @@ export default function PropertiesPage() {
                     {property.address}
                   </p>
                   <div className="flex items-center justify-between mt-4">
-                    <span className="text-base font-medium text-gray-900">
-                      ₵{property.price.replace(/[$,]/g, "")}
+                    <span className="text-base font-bold text-gray-900">
+                      GHS {property.price.replace(/[$,]/g, "")}
                     </span>
                     <a href={`/properties/${property.id}`}>
                       <Button className="">View Details</Button>

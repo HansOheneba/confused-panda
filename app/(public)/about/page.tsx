@@ -32,42 +32,46 @@ export default function AboutPage() {
       </section>
 
       {/* Our Core Values Section */}
-      <section className="py-12 md:py-20 bg-gradient-to-b from-transparent via-white to-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16">
-            <div className="flex-1 w-full mt-8 md:mt-0">
-              <Image
-                src="/assets/kitchen.png"
-                alt="Modern kitchen interior"
-                width={500}
-                height={400}
-                className="rounded-lg object-cover shadow-md w-full h-auto"
-              />
-            </div>
-            <div className="flex-1 w-full">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Our Core Values
-              </h2>
-              <p className="text-gray-600 mb-6">
-                We are committed to providing exceptional service and upholding
-                the highest standards in all our dealings.
-              </p>
-              <div className="flex flex-wrap gap-3 mb-6">
-                <span className="px-4 py-2 border border-airbanBlue font-thin rounded-sm text-sm bg-airbanBlue/10">
-                  Integrity
-                </span>
-                <span className="px-4 py-2 border border-airbanBlue font-thin rounded-sm text-sm bg-airbanBlue/10">
-                  Professionalism
-                </span>
-                <span className="px-4 py-2 border border-airbanBlue font-thin rounded-sm text-sm bg-airbanBlue/10">
-                  Reliability
-                </span>
+      <div className="bg-gradient-to-b from-transparent via-white to-white">
+        <section className="py-12 md:py-20 max-w-6xl mx-auto">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16">
+              <div className="flex-1 w-full mt-8 md:mt-0">
+                <Image
+                  src="/assets/kitchen.png"
+                  alt="Modern kitchen interior"
+                  width={500}
+                  height={400}
+                  className="rounded-lg object-cover shadow-md w-full h-auto"
+                />
               </div>
-              <Button className=" w-full sm:w-auto">Speak with Agent →</Button>
+              <div className="flex-1 w-full">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                  Our Core Values
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  We are committed to providing exceptional service and
+                  upholding the highest standards in all our dealings.
+                </p>
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <span className="px-4 py-2 border border-airbanBlue font-thin rounded-sm text-sm bg-airbanBlue/10">
+                    Integrity
+                  </span>
+                  <span className="px-4 py-2 border border-airbanBlue font-thin rounded-sm text-sm bg-airbanBlue/10">
+                    Professionalism
+                  </span>
+                  <span className="px-4 py-2 border border-airbanBlue font-thin rounded-sm text-sm bg-airbanBlue/10">
+                    Reliability
+                  </span>
+                </div>
+                <Button className=" w-full sm:w-auto">
+                  Speak with Agent →
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* Leadership Team Section */}
       <LeadershipTeam />
