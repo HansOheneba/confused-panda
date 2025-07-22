@@ -17,13 +17,15 @@ const page = () => {
       <section className="relative py-12 md:py-0 h-auto md:h-[90vh] bg-[url('/assets/hero.png')] bg-cover bg-center bg-no-repeat w-full px-4 md:px-20">
         <div className="relative z-20 flex flex-col md:justify-center md:items-start justify-center h-auto md:h-full px-4 sm:px-12 max-w-6xl mx-auto">
           <div className="text-left max-w-2xl text-white mb-8">
-            <h1 className="text-3xl sm:text-5xl font-bold my-4 sm:mb-6 pt-10 md:pt-0">
-              Buy, rent or sell your <br /> property easily
+            <h1 className="text-3xl sm:text-5xl font-bold my-4 sm:mb-6 pt-10 md:pt-0 leading">
+              Step into
+              <br />
+              Distinctive Homes
             </h1>
-            <p className="text-sm sm:text-lg mb-6 sm:mb-8 leading-relaxed">
-              A great platform to buy, sell, or even rent your{" "}
+            <p className="text-sm sm:text-lg mb-6 sm:mb-8 leading-relaxed 2">
+              Your dream home is closer than you think.{" "}
               <br className="hidden sm:block" />
-              properties without any commissions.
+              With Airban Homes, homeownership becomes simple, seamless.
             </p>
           </div>
           <div className="w-full sm:max-w-xl">
