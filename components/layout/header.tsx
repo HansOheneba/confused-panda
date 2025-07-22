@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 
 export function Header() {
   const [show, setShow] = useState(true);
@@ -16,7 +16,6 @@ export function Header() {
 
   useEffect(() => {
     setMounted(true);
-    // Show header after splash is fully gone (2200ms)
     const timer = setTimeout(() => setShowHeader(true), 2200);
     return () => clearTimeout(timer);
   }, []);
@@ -26,33 +25,28 @@ export function Header() {
     let lastY = window.scrollY;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastY && currentScrollY > 100) {
-        setShow(false);
-      } else {
-        setShow(true);
-      }
+      setShow(currentScrollY < lastY || currentScrollY < 100);
       setIsScrolled(currentScrollY > 50);
       lastY = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll);
-    // Run once on mount to set correct state
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [mounted]);
 
   if (!mounted || !showHeader) return null;
 
-  // Animate in on first show
   const initialShowClass = showHeader ? "animate-fade-in-down" : "";
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 ease-in-out transform
-  ${show ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
-  ${isScrolled ? "bg-black/20 backdrop-blur-sm py-3" : "bg-transparent py-6"}
-  ${initialShowClass}
-`}
+      ${show ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
+      ${
+        isScrolled ? "bg-black/20 backdrop-blur-sm py-3" : "bg-transparent py-6"
+      }
+      ${initialShowClass}`}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
@@ -76,10 +70,15 @@ export function Header() {
 
           {/* Right Side */}
           <div className="flex items-center space-x-4">
-            {/* Desktop Brochure Button */}
+            {/* Desktop Buttons */}
+            <Link href="/cart" className="hidden md:inline">
+              
+                <ShoppingCart size={18} className="text-white" />
+            
+            </Link>
             <Button
               variant="secondary"
-              className="hidden md:inline bg-white text-airbanBlue hover:bg-gray-100"
+              className="hidden md:flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100"
             >
               Brochure
             </Button>
@@ -99,14 +98,20 @@ export function Header() {
 
         {/* Mobile Nav Menu */}
         {menuOpen && (
-          <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-4 space-y-6 text-white">
+          <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-6 space-y-6 text-white">
             <NavLinks mobile onClickLink={() => setMenuOpen(false)} />
-            <Button
-              className="w-full bg-white text-airbanBlue hover:bg-gray-100"
-              onClick={() => setMenuOpen(false)}
-            >
-              Brochure
-            </Button>
+            <div className="flex gap-2">
+              <Link href="/cart" className="block w-full">
+                <Button
+                  className="w-full flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100"
+                  onClick={() => setMenuOpen(false)}
+                  aria-label="View Cart"
+                >
+                  <ShoppingCart size={18} className="text-airbanBlue" />
+                  Cart
+                </Button>
+              </Link>
+            </div>
           </div>
         )}
       </div>
@@ -129,7 +134,6 @@ function NavLinks({
     { href: "/contact", label: "Contact Us" },
     { href: "/about", label: "About Us" },
   ];
-  const handleClick = onClickLink ? onClickLink : undefined;
 
   return (
     <>
@@ -141,7 +145,7 @@ function NavLinks({
           <Link
             key={link.href}
             href={link.href}
-            onClick={handleClick}
+            onClick={onClickLink}
             className={`relative flex flex-col items-center ${
               mobile ? "text-lg font-medium" : "text-white text-sm font-medium"
             }`}
