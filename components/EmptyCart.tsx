@@ -14,9 +14,9 @@ export default function EmptyCart() {
       <p className="text-gray-500 mb-6 text-sm sm:text-base">
         Looks like you haven’t added anything yet.
       </p>
-      <Link href="/properties">
+      <Link href="/doors">
         <Button className="">
-          Browse Properties
+          Browse Doors
         </Button>
       </Link>
     </div>
