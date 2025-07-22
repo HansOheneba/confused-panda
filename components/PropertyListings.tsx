@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/ui/PropertyCard";
 import { getProperties } from "@/lib/properties";
+import Link from "next/link";
 
 export function PropertyListings() {
   const properties = getProperties();
@@ -21,9 +22,11 @@ export function PropertyListings() {
           ))}
         </div>
 
-        <div className="text-center">
-          <Button className="">Browse more properties</Button>
-        </div>
+        <Link href="/properties" className="text-center">
+          <div className="text-center">
+            <Button className="">Browse more properties</Button>
+          </div>
+        </Link>
       </div>
     </section>
   );

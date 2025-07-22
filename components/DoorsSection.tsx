@@ -1,12 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function DoorsSection() {
   return (
     <>
       {/* Airban Doors Section */}
-      <section className="overflow-hidden">
+      <section className="overflow-hidden bg-white">
         <div className="py-20 text-center">
           <h1 className="py-5 font-bold text-4xl font-open">Airban Doors</h1>
           <p className="text-gray-600">
@@ -42,9 +43,11 @@ export function DoorsSection() {
         </div>
 
         <div className="flex justify-center py-10">
+         <Link href={"/doors"}>
           <Button className="bg-airbanBlue px-7 py-1 text-white hover:bg-airbanBlue/90">
             View More
           </Button>
+          </Link>
         </div>
       </section>
     </>
