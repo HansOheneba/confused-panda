@@ -17,7 +17,7 @@ const page = () => {
       <section className="relative py-12 md:py-0 h-auto md:h-[80vh] bg-[url('/assets/hero.png')] bg-cover bg-center bg-no-repeat w-full px-4 md:px-20">
         <div className="relative z-20 flex flex-col md:justify-center md:items-start justify-center h-auto md:h-full px-4 sm:px-12 md:px-24 lg:px-32">
           <div className="text-left max-w-2xl text-white mb-8">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold my-4 sm:mb-6 pt-10 md:pt-0">
+            <h1 className="text-3xl sm:text-4xl font-bold my-4 sm:mb-6 pt-10 md:pt-0">
               Buy, rent or sell your <br /> property easily
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 leading-relaxed">
