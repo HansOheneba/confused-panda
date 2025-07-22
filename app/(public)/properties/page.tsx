@@ -77,89 +77,91 @@ export default function PropertiesPage() {
         </div>
       </section>
       {/* Search Bar */}
-      <div className="bg-white rounded-xl p-3 shadow-xl border border-gray-100 text-black relative z-10 max-w-2xl mx-auto -mt-16 mb-5">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1">
-            <Input
-              placeholder="Search for a property"
-              className="border border-gray-300 bg-gray-50 text-gray-900 placeholder:text-gray-500"
-            />
+      <div className="px-8">
+        <div className="bg-white rounded-xl p-3 shadow-xl border border-gray-100 text-black relative z-10 max-w-2xl mx-auto -mt-16 mb-5">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <Input
+                placeholder="Search for a property"
+                className="border border-gray-300 bg-gray-50 text-gray-900 placeholder:text-gray-500"
+              />
+            </div>
+            <Button className="px-6">
+              <Search className="h-4 w-4 mr-2" />
+              Find Property
+            </Button>
           </div>
-          <Button className="px-6">
-            <Search className="h-4 w-4 mr-2" />
-            Find Property
-          </Button>
-        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
-          {/* Location */}
-          <Select>
-            <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
-              <MapPin className="h-4 w-4 mr-2 text-gray-500" />
-              <SelectValue placeholder="Location" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="accra">Accra</SelectItem>
-              <SelectItem value="kumasi">Kumasi</SelectItem>
-              <SelectItem value="takoradi">Takoradi</SelectItem>
-              <SelectItem value="tamale">Tamale</SelectItem>
-              <SelectItem value="cape-coast">Cape Coast</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-6">
+            {/* Location */}
+            <Select>
+              <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
+                <MapPin className="h-4 w-4 mr-2 text-gray-500" />
+                <SelectValue placeholder="Location" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="accra">Accra</SelectItem>
+                <SelectItem value="kumasi">Kumasi</SelectItem>
+                <SelectItem value="takoradi">Takoradi</SelectItem>
+                <SelectItem value="tamale">Tamale</SelectItem>
+                <SelectItem value="cape-coast">Cape Coast</SelectItem>
+              </SelectContent>
+            </Select>
 
-          {/* Property Type */}
-          <Select>
-            <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
-              <Home className="h-4 w-4 mr-2 text-gray-500" />
-              <SelectValue placeholder="Property Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="self-contained">Self-contained</SelectItem>
-              <SelectItem value="chamber-hall">Chamber and Hall</SelectItem>
-              <SelectItem value="2-bedroom">2 Bedroom Apartment</SelectItem>
-              <SelectItem value="storey">Storey Building</SelectItem>
-              <SelectItem value="office-space">Office Space</SelectItem>
-            </SelectContent>
-          </Select>
+            {/* Property Type */}
+            <Select>
+              <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
+                <Home className="h-4 w-4 mr-2 text-gray-500" />
+                <SelectValue placeholder="Property Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="self-contained">Self-contained</SelectItem>
+                <SelectItem value="chamber-hall">Chamber and Hall</SelectItem>
+                <SelectItem value="2-bedroom">2 Bedroom Apartment</SelectItem>
+                <SelectItem value="storey">Storey Building</SelectItem>
+                <SelectItem value="office-space">Office Space</SelectItem>
+              </SelectContent>
+            </Select>
 
-          {/* Pricing Range */}
-          <Select>
-            <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
-              <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
-              <SelectValue placeholder="Price Range (GHS)" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="low">Under GHS 100,000</SelectItem>
-              <SelectItem value="mid">GHS 100,000 - 500,000</SelectItem>
-              <SelectItem value="high">Above GHS 500,000</SelectItem>
-            </SelectContent>
-          </Select>
+            {/* Pricing Range */}
+            <Select>
+              <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
+                <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
+                <SelectValue placeholder="Price Range (GHS)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="low">Under GHS 100,000</SelectItem>
+                <SelectItem value="mid">GHS 100,000 - 500,000</SelectItem>
+                <SelectItem value="high">Above GHS 500,000</SelectItem>
+              </SelectContent>
+            </Select>
 
-          {/* Size */}
-          <Select>
-            <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
-              <Building className="h-4 w-4 mr-2 text-gray-500" />
-              <SelectValue placeholder="Size" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1-bed">1 Bedroom</SelectItem>
-              <SelectItem value="2-bed">2 Bedrooms</SelectItem>
-              <SelectItem value="3-bed">3+ Bedrooms</SelectItem>
-            </SelectContent>
-          </Select>
+            {/* Size */}
+            <Select>
+              <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
+                <Building className="h-4 w-4 mr-2 text-gray-500" />
+                <SelectValue placeholder="Size" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1-bed">1 Bedroom</SelectItem>
+                <SelectItem value="2-bed">2 Bedrooms</SelectItem>
+                <SelectItem value="3-bed">3+ Bedrooms</SelectItem>
+              </SelectContent>
+            </Select>
 
-          {/* Build Year */}
-          <Select>
-            <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
-              <Calendar className="h-4 w-4 mr-2 text-gray-500" />
-              <SelectValue placeholder="Build Year" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="new">2020 - Present</SelectItem>
-              <SelectItem value="recent">2015 - 2019</SelectItem>
-              <SelectItem value="old">Before 2015</SelectItem>
-            </SelectContent>
-          </Select>
+            {/* Build Year */}
+            <Select>
+              <SelectTrigger className="border border-gray-300 bg-white hover:bg-gray-50">
+                <Calendar className="h-4 w-4 mr-2 text-gray-500" />
+                <SelectValue placeholder="Build Year" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="new">2020 - Present</SelectItem>
+                <SelectItem value="recent">2015 - 2019</SelectItem>
+                <SelectItem value="old">Before 2015</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 

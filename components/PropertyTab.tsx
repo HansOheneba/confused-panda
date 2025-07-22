@@ -1,9 +1,15 @@
-"use client";
-
+import Link from "next/link";
 import { useState } from "react";
 
 export default function PropertyTabs() {
   const [activeTab, setActiveTab] = useState<"buy" | "sell">("buy");
+
+  // Sample dropdown options
+  const buyLocations = ["Spintex, Accra", "East Legon", "Dzorwulu"];
+  const priceRanges = ["GH₵ 100k - 200k", "GH₵ 200k - 500k", "GH₵ 500k+"];
+
+  const sellTypes = ["3-Bedroom House", "Apartment", "Commercial Space"];
+  const sellLocations = ["East Legon", "Airport Residential", "Tema"];
 
   return (
     <div className="w-full max-w-4xl">
@@ -39,35 +45,61 @@ export default function PropertyTabs() {
             <>
               <div className="text-slate-500 py-4 px-5 sm:px-7">
                 Location <br />
-                <span className="text-black font-bold">Spintex, Accra</span>
+                <select className="text-black font-bold bg-transparent appearance-none focus:outline-none">
+                  {buyLocations.map((loc) => (
+                    <option key={loc} value={loc} className="text-black p-5">
+                      {loc}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="hidden sm:block border-slate border-l-2 border-solid h-10 my-auto"></div>
               <div className="text-slate-500 py-4 px-5 sm:px-7">
                 Price Range <br />
-                <span className="text-black font-bold">GH₵ 200k - 500k</span>
+                <select className="text-black font-bold bg-transparent appearance-none focus:outline-none">
+                  {priceRanges.map((range) => (
+                    <option key={range} value={range} className="text-black">
+                      {range}
+                    </option>
+                  ))}
+                </select>
               </div>
             </>
           ) : (
             <>
               <div className="text-slate-500 py-4 px-5 sm:px-7">
                 Property Type <br />
-                <span className="text-black font-bold">3-Bedroom House</span>
+                <select className="text-black font-bold bg-transparent appearance-none focus:outline-none">
+                  {sellTypes.map((type) => (
+                    <option key={type} value={type} className="text-black">
+                      {type}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="hidden sm:block border-slate border-l-2 border-solid h-10 my-auto"></div>
               <div className="text-slate-500 py-4 px-5 sm:px-7">
                 Location <br />
-                <span className="text-black font-bold">East Legon</span>
+                <select className="text-black font-bold bg-transparent appearance-none focus:outline-none">
+                  {sellLocations.map((loc) => (
+                    <option key={loc} value={loc} className="text-black">
+                      {loc}
+                    </option>
+                  ))}
+                </select>
               </div>
             </>
           )}
         </div>
 
         {/* Action Button */}
-        <div className="border-slate border-t-2 sm:border-t-0 sm:border-l-2 border-solid w-full sm:w-auto">
+        <div className="border-slate border-t-2 sm:border-t-0 sm:border-l-2 border-solid w-full sm:w-auto cursor-pointer">
           <div className="p-4 sm:px-8 sm:py-0 flex justify-start sm:justify-center items-center h-full">
-            <button className="w-full sm:w-auto text-white bg-blue-800 rounded-md py-2 px-6 font-semibold">
-              {activeTab === "buy" ? "Browse Properties" : "List Property"}
-            </button>
+            <Link href={"/properties"}>
+              <button className="w-full sm:w-auto text-white bg-blue-800 rounded-md py-2 px-6 font-semibold">
+                {activeTab === "buy" ? "Browse Properties" : "List Property"}
+              </button>
+            </Link>
           </div>
         </div>
       </div>

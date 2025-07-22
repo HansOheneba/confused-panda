@@ -14,10 +14,10 @@ const page = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative py-12 md:py-0 h-auto md:h-[80vh] bg-[url('/assets/hero.png')] bg-cover bg-center bg-no-repeat w-full px-4">
-        <div className="relative z-20 flex flex-col md:justify-center items-start w-full h-auto md:h-full px-4 sm:px-6 md:px-10">
+      <section className="relative py-12 md:py-0 h-auto md:h-[80vh] bg-[url('/assets/hero.png')] bg-cover bg-center bg-no-repeat w-full px-4 md:px-20">
+        <div className="relative z-20 flex flex-col md:justify-center md:items-start justify-center h-auto md:h-full px-4 sm:px-12 md:px-24 lg:px-32">
           <div className="text-left max-w-2xl text-white mb-8">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold my-4 sm:mb-6 pt-10">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold my-4 sm:mb-6 pt-10 md:pt-0">
               Buy, rent or sell your <br /> property easily
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 leading-relaxed">
@@ -31,7 +31,7 @@ const page = () => {
           </div>
         </div>
 
-        {/* Image only visible on medium screens and above */}
+        {/* Hero Image (Right side) */}
         <Image
           className="absolute bottom-0 right-0 w-[300px] md:w-[400px] lg:w-[500px] z-10 hidden md:block"
           src="/assets/heroHouse.png"
