@@ -69,7 +69,7 @@ export function Header() {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-6">
+            <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-4">
               <NavLinks />
             </nav>
           </div>
@@ -99,7 +99,7 @@ export function Header() {
 
         {/* Mobile Nav Menu */}
         {menuOpen && (
-          <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-4 space-y-4 text-white">
+          <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-4 space-y-6 text-white">
             <NavLinks mobile onClickLink={() => setMenuOpen(false)} />
             <Button
               className="w-full bg-white text-airbanBlue hover:bg-gray-100"
