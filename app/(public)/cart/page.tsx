@@ -152,7 +152,13 @@ export default function CartPage() {
                   </div>
                   <div className="text-right">
                     <p className="font-semibold text-gray-900">
-                      GHS {(Number(item.price) * item.quantity).toFixed(2)}
+                      GHS {Number(item.price).toFixed(2)}
+                      {item.quantity > 1 && (
+                        <span className="text-sm text-gray-600">
+                          {" "}
+                          x {item.quantity}
+                        </span>
+                      )}
                     </p>
                   </div>
                 </div>
@@ -171,7 +177,7 @@ export default function CartPage() {
 
           {/* Order Summary Section */}
           <div className="lg:col-span-1">
-            <Card>
+            <Card className="rounded-none">
               <CardContent className="p-6">
                 <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 

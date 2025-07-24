@@ -15,24 +15,43 @@ export function Header() {
   const [showHeader, setShowHeader] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
+  // Calculate total items in cart by summing all quantities
+  const calculateCartCount = () => {
+    if (typeof window !== "undefined") {
+      try {
+        const cartRaw = localStorage.getItem("cart");
+        const cart = cartRaw ? JSON.parse(cartRaw) : [];
+        return cart.reduce(
+          (total: number, item: any) => total + (item.quantity || 1),
+          0
+        );
+      } catch (error) {
+        console.error("Error reading cart:", error);
+        return 0;
+      }
+    }
+    return 0;
+  };
+
   useEffect(() => {
     setMounted(true);
     const timer = setTimeout(() => setShowHeader(true), 2200);
-    // Get cart count from localStorage
-    if (typeof window !== "undefined") {
-      const count = parseInt(localStorage.getItem("cartCount") || "0", 10);
-      setCartCount(count);
-      // Listen for cart updates
-      window.addEventListener("cartCountUpdate", () => {
-        const newCount = parseInt(localStorage.getItem("cartCount") || "0", 10);
-        setCartCount(newCount);
-      });
-    }
+
+    // Initial cart count calculation
+    setCartCount(calculateCartCount());
+
+    // Listen for cart updates
+    const handleCartUpdate = () => {
+      setCartCount(calculateCartCount());
+    };
+
+    window.addEventListener("storage", handleCartUpdate);
+    window.addEventListener("cartUpdated", handleCartUpdate);
+
     return () => {
       clearTimeout(timer);
-      if (typeof window !== "undefined") {
-        window.removeEventListener("cartCountUpdate", () => {});
-      }
+      window.removeEventListener("storage", handleCartUpdate);
+      window.removeEventListener("cartUpdated", handleCartUpdate);
     };
   }, []);
 

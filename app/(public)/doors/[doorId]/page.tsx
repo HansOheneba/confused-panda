@@ -63,57 +63,53 @@ export default function DoorDetailsPage() {
     });
   };
 
-  const handleAddToCart = () => {
-    if (!isClient || selectedVariant === null) return;
+ 
+const handleAddToCart = () => {
+  if (!isClient || selectedVariant === null) return;
 
-    setIsAdding(true);
+  setIsAdding(true);
 
-    try {
-      // Get current cart from localStorage
-      const cartRaw = localStorage.getItem("cart");
-      const cart: CartItem[] = cartRaw ? JSON.parse(cartRaw) : [];
+  try {
+    // Get current cart from localStorage
+    const cartRaw = localStorage.getItem("cart");
+    const cart: CartItem[] = cartRaw ? JSON.parse(cartRaw) : [];
 
-      const orientation = door.variants[selectedVariant].orientation;
+    const orientation = door.variants[selectedVariant].orientation;
 
-      // Check if item already exists in cart
-      const existingItemIndex = cart.findIndex(
-        (item) => item.id === door.id && item.orientation === orientation
-      );
+    // Check if item already exists in cart
+    const existingItemIndex = cart.findIndex(
+      (item) => item.id === door.id && item.orientation === orientation
+    );
 
-      if (existingItemIndex >= 0) {
-        // Update existing item quantity
-        cart[existingItemIndex].quantity += quantity;
-      } else {
-        // Add new item to cart
-        cart.push({
-          id: door.id,
-          name: door.name,
-          price: door.price,
-          image: door.image_url,
-          orientation,
-          quantity,
-        });
-      }
-
-      // Save updated cart
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      // Update cart count
-      const currentCount = parseInt(
-        localStorage.getItem("cartCount") || "0",
-        10
-      );
-      localStorage.setItem("cartCount", String(currentCount + quantity));
-      window.dispatchEvent(new Event("cartCountUpdate"));
-
-      showToast("Added to cart!");
-    } catch (error) {
-      console.error("Failed to update cart:", error);
-      showToast("Failed to add to cart");
-    } finally {
-      setIsAdding(false);
+    if (existingItemIndex >= 0) {
+      // Update existing item quantity
+      cart[existingItemIndex].quantity += quantity;
+    } else {
+      // Add new item to cart
+      cart.push({
+        id: door.id,
+        name: door.name,
+        price: door.price,
+        image: door.image_url,
+        orientation,
+        quantity,
+      });
     }
-  };
+
+    // Save updated cart
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Dispatch event to update header
+    window.dispatchEvent(new Event("cartUpdated"));
+
+    showToast("Added to cart!");
+  } catch (error) {
+    console.error("Failed to update cart:", error);
+    showToast("Failed to add to cart");
+  } finally {
+    setIsAdding(false);
+  }
+};
 
   // Carousel handlers
   const handlePrevImage = () => {
