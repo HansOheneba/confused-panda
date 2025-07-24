@@ -36,7 +36,6 @@ export default function PropertyTabs() {
           Sell
         </button>
       </div>
-
       {/* Tab Content */}
       <div className="flex flex-col sm:flex-row flex-wrap items-stretch bg-white text-black text-sm rounded-b-md sm:rounded-tr-md shadow-sm border border-t-0 border-slate-200 p-3">
         {/* Inputs Section */}
@@ -44,7 +43,9 @@ export default function PropertyTabs() {
           {activeTab === "buy" ? (
             <>
               <div className=" px-3 flex-1">
-                <label className="block text-slate-500 mb-1 text-xs">Location</label>
+                <label className="block text-slate-500 mb-1 text-xs">
+                  Location
+                </label>
                 <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {buyLocations.map((loc) => (
                     <option key={loc} value={loc}>
@@ -54,7 +55,9 @@ export default function PropertyTabs() {
                 </select>
               </div>
               <div className=" px-3 flex-1">
-                <label className="block text-slate-500 mb-1 text-xs">Price Range</label>
+                <label className="block text-slate-500 mb-1 text-xs">
+                  Price Range
+                </label>
                 <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {priceRanges.map((range) => (
                     <option key={range} value={range}>
@@ -79,7 +82,9 @@ export default function PropertyTabs() {
                 </select>
               </div>
               <div className=" px-3 flex-1">
-                <label className="block text-slate-500 mb-1 text-xs">Location</label>
+                <label className="block text-slate-500 mb-1 text-xs">
+                  Location
+                </label>
                 <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {sellLocations.map((loc) => (
                     <option key={loc} value={loc}>

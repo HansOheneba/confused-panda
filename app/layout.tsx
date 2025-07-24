@@ -51,9 +51,11 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.className} antialiased bg-airbanBlue animate-fade min-h-screen flex flex-col`}
       >
-        <Header />
-        <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-        <Footer />
+        <>
+          <Header />
+          <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+          <Footer />
+        </>
       </body>
     </html>
   );

@@ -15,8 +15,8 @@ export default function EmptyCart() {
         Looks like you haven’t added anything yet.
       </p>
       <Link href="/doors">
-        <Button className="">
-          Browse Doors
+        <Button asChild>
+          <span>Browse Doors</span>
         </Button>
       </Link>
     </div>

@@ -164,7 +164,6 @@ export default function PropertiesPage() {
           </div>
         </div>
       </div>
-
       {/* Properties Section */}
       <section className="py-32 bg-gradient-to-b from-transparent via-white to-white">
         <div className="container mx-auto px-4 max-w-6xl">
@@ -215,7 +214,6 @@ export default function PropertiesPage() {
           </div>
         </div>
       </section>
-
       {/* FAQ Section */}
       <FAQSection faqs={faqs} />
     </div>
