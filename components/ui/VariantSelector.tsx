@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface VariantSelectorProps {
   variants: { orientation: string; stock: number }[];
-  selected: number;
+  selected?: number;
   onSelect: (index: number) => void;
 }
 

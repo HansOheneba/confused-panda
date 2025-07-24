@@ -13,11 +13,27 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showHeader, setShowHeader] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     setMounted(true);
     const timer = setTimeout(() => setShowHeader(true), 2200);
-    return () => clearTimeout(timer);
+    // Get cart count from localStorage
+    if (typeof window !== "undefined") {
+      const count = parseInt(localStorage.getItem("cartCount") || "0", 10);
+      setCartCount(count);
+      // Listen for cart updates
+      window.addEventListener("cartCountUpdate", () => {
+        const newCount = parseInt(localStorage.getItem("cartCount") || "0", 10);
+        setCartCount(newCount);
+      });
+    }
+    return () => {
+      clearTimeout(timer);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("cartCountUpdate", () => {});
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -71,9 +87,14 @@ export function Header() {
           {/* Right Side */}
           <div className="flex items-center space-x-4">
             {/* Desktop Buttons */}
-            <div className="px-3">
+            <div className="px-3 relative">
               <Link href="/cart" className="hidden md:inline">
                 <ShoppingCart size={18} className="text-white" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-airbanBlue text-white text-xs rounded-full px-1.5 py-0.5 min-w-[20px] text-center">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </div>
             <Button
@@ -101,13 +122,20 @@ export function Header() {
           <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-6 space-y-6 text-white">
             <NavLinks mobile onClickLink={() => setMenuOpen(false)} />
             <div className="flex gap-2">
-              <Link href="/cart" className="block w-full">
+              <Link href="/cart" className="block w-full relative">
                 <Button
                   className="w-full flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100"
                   onClick={() => setMenuOpen(false)}
                   aria-label="View Cart"
                 >
-                  <ShoppingCart size={18} className="text-airbanBlue" />
+                  <span className="relative">
+                    <ShoppingCart size={18} className="text-airbanBlue" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[20px] text-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </span>
                   Cart
                 </Button>
               </Link>
