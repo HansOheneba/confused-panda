@@ -236,7 +236,7 @@ export default function DoorDetailsPage() {
                 </div>
 
                 <p className="text-xs text-gray-500">
-                  *All doors come with free installation
+                  *All doors come with free delivery and installation in Accra
                 </p>
               </div>
             </div>

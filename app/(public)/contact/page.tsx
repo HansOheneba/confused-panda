@@ -8,6 +8,7 @@ import { SelectContent, SelectItem } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 import ContactInfoCard from "@/components/ContactInfoCard";
+import Image from "next/image";
 
 const contact = () => {
   return (
@@ -15,19 +16,28 @@ const contact = () => {
       {/* Hero Section */}
       <section className="">
         <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-br from-gray-200 shadow-lg rounded-md p-16 max-w-6xl mx-auto">
-            <div className="text-left mb-8">
-              <h1 className="text-xl md:text-5xl font-medium mb-4">
+          <div className="bg-gradient-to-br from-gray-200 shadow-lg rounded-md p-8 md:p-16 max-w-6xl mx-auto relative">
+            <div className="text-left mb-8 relative z-10">
+              <h1 className="text-xl md:text-3xl font-semibold mb-4">
                 Get in Touch with Airban Homes
               </h1>
-              <p className="text-sm opacity-90 max-w-2xl">
+              <p className="text-xs opacity-90 max-w-md">
                 Welcome to Estatein's Contact Us page. We're here to assist you
-                with any inquiries, requests, or feedback you may have. Whether
+                with any inquiries,  requests, or feedback you may have. Whether
                 you're looking to buy or sell a property, explore investment
                 opportunities, or simply want to connect, we're just a message
                 away. Reach out to us, and let's start a conversation.
               </p>
             </div>
+
+            {/* Responsive image, large but hidden on small screens */}
+            <Image
+              src="/assets/contactHero.png"
+              alt="Contact Us"
+              height={500}
+              width={500}
+              className="absolute right-0 bottom-0 hidden md:block md:h-[300px] lg:h-[400px] w-auto"
+            />
           </div>
         </div>
       </section>
