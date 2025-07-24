@@ -1,7 +1,7 @@
 import ListingCard from "./ListingCard";
 
 type Product = {
-  id: number;
+  id: string;
   name: string;
   price: string;
   type: string;

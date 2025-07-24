@@ -1,25 +1,17 @@
 import Image from "next/image";
 import ListingsSection from "@/components/ListingsSection";
+import { getDoors } from "@/lib/doors";
 
 export default function DoorsPage() {
-  const products = Array(8)
-    .fill(null)
-    .map((_, index) => ({
-      id: index + 1,
-      name: "Airban Door 1",
-      price: "GHS 9300.00",
-      type: "Single Door",
-      image: `/placeholder.svg?height=200&width=150&query=door-${
-        index % 4 === 0
-          ? "dark-wooden"
-          : index % 4 === 1
-          ? "double-glass"
-          : index % 4 === 2
-          ? "brown-wooden"
-          : "gray-double"
-      }-door`,
-      colors: ["black", "brown"],
-    }));
+  // Get doors from lib and map to ListingSection's product shape
+  const products = getDoors().map((door) => ({
+    id: door.id,
+    name: door.name,
+    price: `GHS ${door.price}`,
+    type: door.category,
+    image: door.image_url || "/assets/door2.png",
+    colors: ["brown", "black"], // Placeholder, adjust as needed
+  }));
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40   ">
