@@ -4,31 +4,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
-import { useState } from "react";
-// Simple toast implementation
-function showToast(message: string) {
-  const toast = document.createElement("div");
-  toast.textContent = message;
-  toast.style.position = "fixed";
-  toast.style.bottom = "32px";
-  toast.style.left = "50%";
-  toast.style.transform = "translateX(-50%)";
-  toast.style.background = "#333";
-  toast.style.color = "#fff";
-  toast.style.padding = "12px 24px";
-  toast.style.borderRadius = "8px";
-  toast.style.zIndex = "9999";
-  toast.style.fontSize = "1rem";
-  toast.style.opacity = "0.95";
-  document.body.appendChild(toast);
-  setTimeout(() => {
-    toast.style.transition = "opacity 0.5s";
-    toast.style.opacity = "0";
-    setTimeout(() => document.body.removeChild(toast), 500);
-  }, 1800);
-}
+import { useState, useEffect } from "react";
 import { VariantSelector } from "@/components/ui/VariantSelector";
 import Link from "next/link";
+import { CartItem } from "@/types"; // Import the interface
 
 const door = {
   category: "Single",
@@ -40,107 +19,149 @@ const door = {
   name: "Classic Walnut Door",
   price: "750.00",
   sub_images: ["/assets/door3.png", "/assets/door1.png"],
-  variants: [
-    {
-      orientation: "left",
-      stock: 18,
-    },
-    {
-      orientation: "right",
-      stock: 3,
-    },
-  ],
+  stock: 5,
+  variants: [{ orientation: "left" }, { orientation: "right" }],
+};
+
+// Improved toast implementation
+const showToast = (message: string) => {
+  if (typeof window === "undefined") return;
+
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.className =
+    "fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg z-50 text-sm font-medium animate-fade-in-up";
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("animate-fade-out");
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 2000);
 };
 
 export default function DoorDetailsPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState<number | null>(null);
-  const maxStock =
-    selectedVariant !== null ? door.variants[selectedVariant]?.stock || 1 : 1;
+  const [isAdding, setIsAdding] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  // Carousel state
+  const maxStock = door.stock || 1;
   const images = [door.image_url, ...door.sub_images];
   const [currentImageIdx, setCurrentImageIdx] = useState(0);
 
-  const handleMinus = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleMinus = () => setQuantity((q) => Math.max(1, q - 1));
+
   const handlePlus = () => {
     setQuantity((q) => {
-      if (q < maxStock) {
-        return q + 1;
-      } else {
-        showToast("You can't select more of this variant");
-        return q;
-      }
+      if (q < maxStock) return q + 1;
+      showToast("Maximum quantity reached");
+      return q;
     });
   };
 
-  // Carousel navigation handlers
+  const handleAddToCart = () => {
+    if (!isClient || selectedVariant === null) return;
+
+    setIsAdding(true);
+
+    try {
+      // Get current cart from localStorage
+      const cartRaw = localStorage.getItem("cart");
+      const cart: CartItem[] = cartRaw ? JSON.parse(cartRaw) : [];
+
+      const orientation = door.variants[selectedVariant].orientation;
+
+      // Check if item already exists in cart
+      const existingItemIndex = cart.findIndex(
+        (item) => item.id === door.id && item.orientation === orientation
+      );
+
+      if (existingItemIndex >= 0) {
+        // Update existing item quantity
+        cart[existingItemIndex].quantity += quantity;
+      } else {
+        // Add new item to cart
+        cart.push({
+          id: door.id,
+          name: door.name,
+          price: door.price,
+          image: door.image_url,
+          orientation,
+          quantity,
+        });
+      }
+
+      // Save updated cart
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      // Update cart count
+      const currentCount = parseInt(
+        localStorage.getItem("cartCount") || "0",
+        10
+      );
+      localStorage.setItem("cartCount", String(currentCount + quantity));
+      window.dispatchEvent(new Event("cartCountUpdate"));
+
+      showToast("Added to cart!");
+    } catch (error) {
+      console.error("Failed to update cart:", error);
+      showToast("Failed to add to cart");
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  // Carousel handlers
   const handlePrevImage = () => {
     setCurrentImageIdx((idx) => (idx === 0 ? images.length - 1 : idx - 1));
   };
+
   const handleNextImage = () => {
     setCurrentImageIdx((idx) => (idx === images.length - 1 ? 0 : idx + 1));
   };
+
   const handleSelectImage = (idx: number) => setCurrentImageIdx(idx);
 
-  // Track if a variant has been selected
-  const isAddToCartEnabled = selectedVariant !== null;
-
-  // Add to Cart button state
-  const [isAdding, setIsAdding] = useState(false);
-
-  const handleAddToCart = () => {
-    setIsAdding(true);
-    // Simulate add to cart delay
-    setTimeout(() => {
-      setIsAdding(false);
-      // Update cart count in localStorage
-      if (typeof window !== "undefined") {
-        const prev = parseInt(localStorage.getItem("cartCount") || "0", 10);
-        localStorage.setItem("cartCount", String(prev + quantity));
-        // Dispatch event for header to update
-        window.dispatchEvent(new Event("cartCountUpdate"));
-      }
-      showToast("Added to cart!");
-    }, 1200);
-  };
+  const isAddToCartEnabled = selectedVariant !== null && door.stock > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40   ">
+    <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40">
       <div className="max-w-7xl mx-auto">
         {/* Header with breadcrumb and pagination */}
         <div className="flex justify-between items-center mb-8 px-3">
-          <div className="text-sm text-black font-semibold space-x-2">
+          <div className="text-sm text-white font-semibold space-x-2">
             <Link href="/doors">
-              <span className="text-gray-600">Our Doors</span>
+              <span className="">Our Doors</span>
             </Link>
             <span className="mx-2">/</span>
             <span>{door.name}</span>
           </div>
           <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-white">
               <span className="text-2xl font-bold">
                 {String(currentImageIdx + 1).padStart(2, "0")}
               </span>
-              <span className="text-gray-200">/</span>
-              <span className="text-gray-200">
-                {String(images.length).padStart(2, "0")}
-              </span>
+              <span className="">/</span>
+              <span className="">{String(images.length).padStart(2, "0")}</span>
             </div>
-            <div className="flex gap-2 ml-4">
+            <div className="flex justify-center items-center gap-2 ml-4">
               <button
-                className="p-2 hover:bg-gray-200 rounded"
+                className="p-2 hover:bg-airbanBlue/20 rounded"
                 onClick={handlePrevImage}
                 aria-label="Previous image"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-5 h-5 text-white" />
               </button>
               <button
-                className="p-2 hover:bg-gray-200 rounded"
+                className="p-2 hover:bg-airbanBlue/20 rounded"
                 onClick={handleNextImage}
                 aria-label="Next image"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-5 h-5 text-white" />
               </button>
             </div>
           </div>
@@ -171,13 +192,13 @@ export default function DoorDetailsPage() {
                   {door.description}
                 </p>
                 <VariantSelector
-                  variants={door.variants}
-                  {...(selectedVariant !== null
-                    ? { selected: selectedVariant }
-                    : {})}
+                  options={door.variants.map((v) => v.orientation)}
+                  selected={
+                    selectedVariant === null ? undefined : selectedVariant
+                  }
                   onSelect={(idx) => {
                     setSelectedVariant(idx);
-                    setQuantity(1); // Reset quantity when variant changes
+                    setQuantity(1);
                   }}
                 />
               </div>
@@ -212,27 +233,13 @@ export default function DoorDetailsPage() {
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
-                  <div className="relative group">
-                    <Button
-                      className="bg-blue-900 hover:bg-blue-800 text-white px-8 py-2"
-                      disabled={!isAddToCartEnabled || isAdding}
-                      onClick={handleAddToCart}
-                      aria-describedby={
-                        !isAddToCartEnabled ? "add-to-cart-tooltip" : undefined
-                      }
-                    >
-                      {isAdding ? "Adding to Cart..." : "Add to Cart"}
-                    </Button>
-                    {!isAddToCartEnabled && (
-                      <div
-                        id="add-to-cart-tooltip"
-                        className="absolute left-1/2 -translate-x-1/2 -top-10 bg-gray-800 text-white text-xs rounded px-3 py-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-20 whitespace-nowrap shadow-lg"
-                        role="tooltip"
-                      >
-                        Please select an orientation first
-                      </div>
-                    )}
-                  </div>
+                  <Button
+                    className="bg-blue-900 hover:bg-blue-800 text-white px-8 py-2"
+                    disabled={!isAddToCartEnabled || isAdding}
+                    onClick={handleAddToCart}
+                  >
+                    {isAdding ? "Adding to Cart..." : "Add to Cart"}
+                  </Button>
                 </div>
 
                 <p className="text-xs text-gray-500">
@@ -256,6 +263,7 @@ export default function DoorDetailsPage() {
                 height={500}
                 className="object-contain h-full"
                 style={{ maxHeight: "100%" }}
+                priority
               />
             </div>
 
