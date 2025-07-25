@@ -5,9 +5,11 @@ export type Door = {
   name: string;
   price: string;
   category: string;
+  size?: string;
   description: string;
   image_url: string | null;
   created_at: string;
+
 };
 
 export const doors: Door[] = [
