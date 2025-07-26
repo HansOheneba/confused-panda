@@ -50,6 +50,7 @@ export default function CheckoutPage() {
     cvv: "",
   });
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Load cart items and address info from localStorage
   useEffect(() => {
@@ -61,8 +62,27 @@ export default function CheckoutPage() {
       // Load saved address if exists
       const savedAddress = localStorage.getItem("checkoutAddress");
       if (savedAddress) {
-        setAddressInfo(JSON.parse(savedAddress));
+        const parsedAddress = JSON.parse(savedAddress);
+        setAddressInfo(parsedAddress);
+
+        // Check if all required address fields are filled
+        const requiredFields = [
+          "firstName",
+          "lastName",
+          "email",
+          "phone",
+          "address",
+          "city",
+        ];
+        const isAddressComplete = requiredFields.every(
+          (field) => parsedAddress[field] && parsedAddress[field].trim() !== ""
+        );
+
+        if (isAddressComplete) {
+          setStep("payment");
+        }
       }
+      setIsLoading(false);
     }
   }, []);
 
@@ -109,6 +129,16 @@ export default function CheckoutPage() {
     (sum, item) => sum + Number(item.price) * item.quantity,
     0
   );
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40">
+        <div className="max-w-7xl mx-auto p-6 text-center">
+          <h1 className="text-2xl font-semibold mb-4">Loading...</h1>
+        </div>
+      </main>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
