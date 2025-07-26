@@ -44,7 +44,7 @@ export function DoorsSection() {
           </div>
 
           <div className="flex justify-center py-10">
-            <Link href={"/doors"}>
+            <Link href={"/doors"} >
               <Button className="bg-airbanBlue px-7 py-1 text-white hover:bg-airbanBlue/90">
                 View More
               </Button>

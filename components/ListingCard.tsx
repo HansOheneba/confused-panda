@@ -15,19 +15,17 @@ export default function ListingCard({ product }: { product: any }) {
           className="object-contain"
         />
       </div>
-
       {/* Content */}
       <div className="px-4 py-3 space-y-2">
-        {/* Title & Price */}
+        <h2 className="text-gray-800 text-sm font-medium">{product.name}</h2>
         <div className="flex justify-between items-center">
-          <h2 className="text-gray-800 text-sm font-medium">{product.name}</h2>
+          <p className="text-sm text-gray-500">{product.type}</p>
           <span className="text-airbanBlue font-semibold text-sm">
             {product.price}
           </span>
         </div>
 
         {/* Category */}
-        <p className="text-sm text-gray-500">{product.type}</p>
 
         {/* View Details Button */}
         <Link href={`/doors/${product.id}`}>

@@ -216,28 +216,28 @@ export function Footer() {
               href="#"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Facebook"
-            >
+              >
               <Facebook className="w-5 h-5" />
             </Link>
             <Link
               href="#"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Instagram"
-            >
+              >
               <Instagram className="w-5 h-5" />
             </Link>
             <Link
               href="#"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Twitter"
-            >
+              >
               <Twitter className="w-5 h-5" />
             </Link>
             <Link
               href="#"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="LinkedIn"
-            >
+              >
               <Linkedin className="w-5 h-5" />
             </Link>
           </div>

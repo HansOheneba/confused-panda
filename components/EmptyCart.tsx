@@ -14,7 +14,7 @@ export default function EmptyCart() {
       <p className="text-gray-500 mb-6 text-sm sm:text-base">
         Looks like you haven’t added anything yet.
       </p>
-      <Link href="/doors">
+      <Link href="/doors" >
         <Button asChild>
           <span>Browse Doors</span>
         </Button>

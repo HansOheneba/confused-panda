@@ -87,6 +87,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo + Nav */}
           <div className="flex items-center space-x-10">
+          
             <Link href="/">
               <Image
                 src="/assets/airbanWhiteLogo.png"
@@ -107,15 +108,19 @@ export function Header() {
           <div className="flex items-center space-x-4">
             {/* Desktop Buttons */}
             <div className="px-3 relative">
+        
               <Link href="/cart" className="hidden md:inline">
-                <ShoppingCart size={18} className="text-white" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-airbanBlue text-white text-xs rounded-full px-1.5 py-0.5 min-w-[20px] text-center">
-                    {cartCount}
-                  </span>
-                )}
+                <div className="relative">
+                  <ShoppingCart size={18} className="text-white" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-airbanBlue text-white text-xs rounded-full px-1.5 py-0.5 min-w-[20px] text-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </div>
               </Link>
             </div>
+
             <Button
               variant="secondary"
               className="hidden md:flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100"
@@ -141,7 +146,8 @@ export function Header() {
           <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-6 space-y-6 text-white">
             <NavLinks mobile onClickLink={() => setMenuOpen(false)} />
             <div className="flex gap-2">
-              <Link href="/cart" className="block w-full relative">
+            
+              <Link href="/cart" className="block w-full">
                 <Button
                   className="w-full flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100"
                   onClick={() => setMenuOpen(false)}
@@ -189,6 +195,7 @@ function NavLinks({
           link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
 
         return (
+       
           <Link
             key={link.href}
             href={link.href}

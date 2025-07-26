@@ -20,7 +20,7 @@ export default function NotFound() {
           Page Not Found, The page you are looking for has either been moved, or
           is being worked on.
         </p>
-        <Link href="/" legacyBehavior>
+        <Link href="/">
           <Button>
             Go Back Home
           </Button>

@@ -7,26 +7,12 @@ import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
 import { VariantSelector } from "@/components/ui/VariantSelector";
 import Link from "next/link";
-import { CartItem } from "@/types"; // Import the interface
-
-const door = {
-  category: "Single",
-  created_at: "Wed, 23 Jul 2025 15:26:51 GMT",
-  description:
-    "A sleek, durable interior door made from premium walnut wood. Perfect for contemporary homes.",
-  id: "40dcc4c6-b87b-4e2a-960e-3f2ffac6e035",
-  image_url: "/assets/door2.png",
-  name: "Classic Walnut Door",
-  price: "750.00",
-  sub_images: ["/assets/door3.png", "/assets/door1.png"],
-  stock: 5,
-  variants: [{ orientation: "left" }, { orientation: "right" }],
-};
+import { CartItem } from "@/types";
+import { useParams } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Improved toast implementation
 const showToast = (message: string) => {
-  if (typeof window === "undefined") return;
-
   const toast = document.createElement("div");
   toast.textContent = message;
   toast.className =
@@ -39,89 +25,194 @@ const showToast = (message: string) => {
   }, 2000);
 };
 
+interface DoorData {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  image_url: string;
+  sub_images: string[];
+  type: string;
+  stock: number;
+  created_at: string;
+  variants?: { orientation: string }[];
+}
+
 export default function DoorDetailsPage() {
+  const params = useParams();
+  // For dynamic route [doorId], param is doorId
+  const id = params.doorId;
+  const [door, setDoor] = useState<DoorData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-
-  const maxStock = door.stock || 1;
-  const images = [door.image_url, ...door.sub_images];
   const [currentImageIdx, setCurrentImageIdx] = useState(0);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    const fetchDoor = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/doors/${id}`
+        );
+        console.log(
+          "Fetching door with URL:",
+          `${process.env.NEXT_PUBLIC_API_URL}/doors/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch door");
+        }
+
+        const data: DoorData = await response.json();
+
+        // Ensure variants exist (fallback to default if not)
+        if (!data.variants) {
+          data.variants = [{ orientation: "left" }, { orientation: "right" }];
+        }
+
+        setDoor(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error");
+        console.error("Error fetching door:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoor();
+  }, [id]);
 
   const handleMinus = () => setQuantity((q) => Math.max(1, q - 1));
 
   const handlePlus = () => {
     setQuantity((q) => {
-      if (q < maxStock) return q + 1;
+      if (door && q < door.stock) return q + 1;
       showToast("Maximum quantity reached");
       return q;
     });
   };
 
- 
-const handleAddToCart = () => {
-  if (!isClient || selectedVariant === null) return;
+  const handleAddToCart = () => {
+    if (!door || selectedVariant === null) return;
 
-  setIsAdding(true);
+    setIsAdding(true);
 
-  try {
-    // Get current cart from localStorage
-    const cartRaw = localStorage.getItem("cart");
-    const cart: CartItem[] = cartRaw ? JSON.parse(cartRaw) : [];
+    try {
+      const cartRaw = localStorage.getItem("cart");
+      const cart: CartItem[] = cartRaw ? JSON.parse(cartRaw) : [];
 
-    const orientation = door.variants[selectedVariant].orientation;
+      const orientation = door.variants![selectedVariant].orientation;
 
-    // Check if item already exists in cart
-    const existingItemIndex = cart.findIndex(
-      (item) => item.id === door.id && item.orientation === orientation
-    );
+      const existingItemIndex = cart.findIndex(
+        (item) => item.id === door.id && item.orientation === orientation
+      );
 
-    if (existingItemIndex >= 0) {
-      // Update existing item quantity
-      cart[existingItemIndex].quantity += quantity;
-    } else {
-      // Add new item to cart
-      cart.push({
-        id: door.id,
-        name: door.name,
-        price: door.price,
-        image: door.image_url,
-        orientation,
-        quantity,
-      });
+      if (existingItemIndex >= 0) {
+        cart[existingItemIndex].quantity += quantity;
+      } else {
+        cart.push({
+          id: door.id,
+          name: door.name,
+          price: door.price,
+          image: door.image_url,
+          orientation,
+          quantity,
+        });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      window.dispatchEvent(new Event("cartUpdated"));
+      showToast("Added to cart!");
+    } catch (error) {
+      console.error("Failed to update cart:", error);
+      showToast("Failed to add to cart");
+    } finally {
+      setIsAdding(false);
     }
+  };
 
-    // Save updated cart
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    // Dispatch event to update header
-    window.dispatchEvent(new Event("cartUpdated"));
-
-    showToast("Added to cart!");
-  } catch (error) {
-    console.error("Failed to update cart:", error);
-    showToast("Failed to add to cart");
-  } finally {
-    setIsAdding(false);
-  }
-};
-
-  // Carousel handlers
   const handlePrevImage = () => {
-    setCurrentImageIdx((idx) => (idx === 0 ? images.length - 1 : idx - 1));
+    if (!door) return;
+    setCurrentImageIdx((idx) => (idx === 0 ? door.sub_images.length : idx - 1));
   };
 
   const handleNextImage = () => {
-    setCurrentImageIdx((idx) => (idx === images.length - 1 ? 0 : idx + 1));
+    if (!door) return;
+    setCurrentImageIdx((idx) => (idx === door.sub_images.length ? 0 : idx + 1));
   };
 
   const handleSelectImage = (idx: number) => setCurrentImageIdx(idx);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40">
+        <div className="max-w-7xl mx-auto p-5">
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Left side skeleton */}
+            <div className="space-y-6">
+              <Skeleton className="h-10 w-3/4" />
+              <Skeleton className="h-6 w-1/4" />
+              <Skeleton className="h-8 w-1/3" />
+              <Skeleton className="h-32 w-full" />
+              <Skeleton className="h-12 w-1/2" />
+              <div className="space-y-4 mt-12">
+                <div className="flex gap-4">
+                  <Skeleton className="h-12 w-32" />
+                  <Skeleton className="h-12 w-48" />
+                </div>
+                <Skeleton className="h-4 w-3/4" />
+              </div>
+            </div>
+
+            {/* Right side skeleton */}
+            <div className="space-y-4">
+              <Skeleton className="h-[420px] w-full" />
+              <div className="flex gap-3 justify-center">
+                {[...Array(3)].map((_, i) => (
+                  <Skeleton key={i} className="w-16 h-20" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40">
+        <div className="max-w-7xl mx-auto p-5 text-center">
+          <h2 className="text-2xl font-bold mb-4">Error loading door</h2>
+          <p className="text-red-500 mb-6">{error}</p>
+          <Link href="/doors">
+            <Button className="bg-blue-900 hover:bg-blue-800">
+              Back to Doors
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (!door) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40">
+        <div className="max-w-7xl mx-auto p-5 text-center">
+          <h2 className="text-2xl font-bold mb-4">Door not found</h2>
+          <Link href="/doors">
+            <Button className="bg-blue-900 hover:bg-blue-800">
+              Back to Doors
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const images = [door.image_url, ...door.sub_images];
   const isAddToCartEnabled = selectedVariant !== null && door.stock > 0;
 
   return (
@@ -129,9 +220,9 @@ const handleAddToCart = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header with breadcrumb and pagination */}
         <div className="flex justify-between items-center mb-8 px-3">
-          <div className="text-sm text-white font-semibold space-x-2">
-            <Link href="/doors">
-              <span className="">Our Doors</span>
+          <div className="text-sm text-white font-semibold flex items-center">
+            <Link href="/doors" className="hover:underline">
+              Our Doors
             </Link>
             <span className="mx-2">/</span>
             <span>{door.name}</span>
@@ -176,7 +267,7 @@ const handleAddToCart = () => {
                   </h1>
                   <p>
                     <span className="text-gray-600 text-sm">
-                      {door.category} Door
+                      {door.type} Door
                     </span>
                   </p>
                   <p className="text-lg font-semibold text-[#17183B]">
@@ -188,7 +279,7 @@ const handleAddToCart = () => {
                   {door.description}
                 </p>
                 <VariantSelector
-                  options={door.variants.map((v) => v.orientation)}
+                  options={door.variants!.map((v) => v.orientation)}
                   selected={
                     selectedVariant === null ? undefined : selectedVariant
                   }
@@ -218,12 +309,12 @@ const handleAddToCart = () => {
                     />
                     <button
                       className={`p-2 hover:bg-gray-100 ${
-                        quantity >= maxStock
+                        quantity >= door.stock
                           ? "bg-gray-300 text-gray-400 cursor-not-allowed"
                           : ""
                       }`}
                       onClick={handlePlus}
-                      disabled={quantity >= maxStock}
+                      disabled={quantity >= door.stock}
                       type="button"
                     >
                       <Plus className="w-4 h-4" />

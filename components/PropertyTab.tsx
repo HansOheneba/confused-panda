@@ -100,7 +100,7 @@ export default function PropertyTabs() {
         {/* CTA Button */}
         <div className="border-t sm:border-t-0 sm:border-l border-slate-200 w-full sm:w-auto">
           <div className="p-4 sm:px-6 flex items-center h-full justify-center">
-            <Link href="/properties">
+            <Link href="/properties" >
               <Button className="">
                 {activeTab === "buy" ? "Browse Properties" : "List Property"}
               </Button>

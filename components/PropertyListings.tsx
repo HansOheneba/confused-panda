@@ -23,7 +23,7 @@ export function PropertyListings() {
             ))}
           </div>
 
-          <Link href="/properties" className="text-center">
+          <Link href="/properties" className="text-center" >
             <div className="text-center">
               <Button className="">Browse more properties</Button>
             </div>
