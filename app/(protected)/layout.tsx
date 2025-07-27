@@ -3,12 +3,14 @@ import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import Sidebar from "@/components/admin/Sidebar";
 
 interface AdminLayoutProps {
   children: ReactNode;
 }
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
+  // This is a server component, so we can't use hooks directly. We'll pass the pathname to a client component for the sidebar.
   const { userId } = await auth();
 
   if (!userId) {
@@ -32,27 +34,14 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <div className="min-h-screen flex bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md px-6 py-8">
-        <h1 className="text-2xl font-bold text-blue-600 mb-8">Admin Panel</h1>
-        <nav className="space-y-4 text-sm">
-          <Link href="/admin" className="block hover:text-blue-500">
-            Dashboard
-          </Link>
-          <Link href="/admin/doors" className="block hover:text-blue-500">
-            Manage Doors
-          </Link>
-          <Link href="/admin/users" className="block hover:text-blue-500">
-            Users
-          </Link>
-        </nav>
-      </aside>
+      <Sidebar />
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col">
         {/* Top Bar */}
         <header className="flex justify-between items-center px-6 py-4 border-b bg-white shadow-sm">
           <div className="text-sm text-gray-600">
-            Signed in as <span className="font-medium">{email}</span>
+            Signed in as <span className="font-semibold">{user.fullName}</span>
           </div>
           <div className="flex gap-2 items-center">
             <Link
