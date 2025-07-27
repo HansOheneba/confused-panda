@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export function Footer() {
   const [showFooter, setShowFooter] = useState(false);
@@ -80,6 +81,21 @@ export function Footer() {
               >
                 Finance
               </Link>
+              <div className="text-sm">
+                {/* Show Sign In if signed out, UserButton if signed in */}
+                <>
+                  <SignedOut>
+                    <SignInButton mode="modal">
+                      <span className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer">
+                        Sign in
+                      </span>
+                    </SignInButton>
+                  </SignedOut>
+                  <SignedIn>
+                    <UserButton />
+                  </SignedIn>
+                </>
+              </div>
             </nav>
           </div>
 
@@ -216,28 +232,28 @@ export function Footer() {
               href="#"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Facebook"
-              >
+            >
               <Facebook className="w-5 h-5" />
             </Link>
             <Link
               href="#"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Instagram"
-              >
+            >
               <Instagram className="w-5 h-5" />
             </Link>
             <Link
               href="#"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Twitter"
-              >
+            >
               <Twitter className="w-5 h-5" />
             </Link>
             <Link
               href="#"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="LinkedIn"
-              >
+            >
               <Linkedin className="w-5 h-5" />
             </Link>
           </div>
