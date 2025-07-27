@@ -88,7 +88,7 @@ export function Header() {
           {/* Logo + Nav */}
           <div className="flex items-center space-x-10">
           
-            <Link href="/">
+            <Link href="/home">
               <Image
                 src="/assets/airbanWhiteLogo.png"
                 alt="Airban Logo"
@@ -181,7 +181,7 @@ function NavLinks({
 }) {
   const pathname = usePathname();
   const links = [
-    { href: "/", label: "Home" },
+    { href: "/home", label: "Home" },
     { href: "/doors", label: "Our Doors" },
     { href: "/properties", label: "Properties" },
     { href: "/contact", label: "Contact Us" },
