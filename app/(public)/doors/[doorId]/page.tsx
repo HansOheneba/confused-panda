@@ -212,7 +212,16 @@ export default function DoorDetailsPage() {
     );
   }
 
-  const images = [door.image_url, ...door.sub_images];
+  // Filter out empty or falsy image URLs and use a placeholder if none exist
+  const placeholder = "/assets/placeholder.png";
+  const images =
+    [door.image_url, ...(door.sub_images || [])].filter(
+      (img) => !!img && img.trim() !== ""
+    ).length > 0
+      ? [door.image_url, ...(door.sub_images || [])].filter(
+          (img) => !!img && img.trim() !== ""
+        )
+      : [placeholder];
   const isAddToCartEnabled = selectedVariant !== null && door.stock > 0;
 
   return (
