@@ -54,7 +54,15 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
           <div className="text-sm text-gray-600">
             Signed in as <span className="font-medium">{email}</span>
           </div>
-          <UserButton afterSignOutUrl="/sign-in" />
+          <div className="flex gap-2 items-center">
+            <Link
+              href="/home"
+              className="text-sm text-airbanBlue hover:underline"
+            >
+              View Website
+            </Link>
+            <UserButton />
+          </div>
         </header>
 
         {/* Page Content */}
