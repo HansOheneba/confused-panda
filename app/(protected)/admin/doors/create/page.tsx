@@ -1,174 +1,64 @@
 "use client";
 
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+import { useState } from "react";
+import { Door } from "@/components/admin/DoorForm";
+import Link from "next/link";
+import { DoorForm } from "@/components/admin/DoorForm";
 
 export default function CreateDoorPage() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [type, setType] = useState("");
-  const [stock, setStock] = useState("");
-  const [mainImage, setMainImage] = useState<File | null>(null);
-  const [subImages, setSubImages] = useState<FileList | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<string | null>(null);
-
   const router = useRouter();
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const uploadImageToImgBB = async (image: File) => {
-    setStatus("Uploading images...");
-    const formData = new FormData();
-    formData.append("image", image);
-    const res = await fetch(
-      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const data = await res.json();
-    return data.data.url;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setStatus("Uploading main image...");
+  const handleSubmit = async (doorData: Door) => {
+    setSaving(true);
+    setError(null);
     try {
-      let imageUrl = "";
-      let subImageUrls: string[] = [];
-
-      if (mainImage) {
-        imageUrl = await uploadImageToImgBB(mainImage);
-      }
-
-      if (subImages) {
-        setStatus("Uploading sub images...");
-        const uploads = Array.from(subImages).map((file) =>
-          uploadImageToImgBB(file)
-        );
-        subImageUrls = await Promise.all(uploads);
-      }
-
-      setStatus("Creating door...");
       const payload = {
-        name,
-        description,
-        price: parseFloat(price),
-        type,
-        stock: parseInt(stock),
-        image_url: imageUrl,
-        sub_images: subImageUrls,
+        name: doorData.name,
+        description: doorData.description,
+        price: doorData.price,
+        type: doorData.type,
+        stock: doorData.stock,
+        image_url: doorData.image_url,
+        sub_images: doorData.sub_images || [],
       };
 
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/doors`, payload);
-      setStatus("Door created! Redirecting...");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/doors`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Failed to create door");
       router.push("/admin/doors");
     } catch (err) {
-      setStatus("Failed to create door. Please try again.");
-      console.error("Failed to create door:", err);
+      setError("Failed to create door");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h2 className="text-xl font-bold mb-4">Create New Door</h2>
-      {status && (
-        <div className="mb-4 text-blue-600 animate-pulse">{status}</div>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label>Name</Label>
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div>
-          <Label>Description</Label>
-          <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div>
-          <Label>Price (GHS)</Label>
-          <Input
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div>
-          <Label>Type</Label>
-          <Select value={type} onValueChange={setType} disabled={loading}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select door type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Single">Single</SelectItem>
-              <SelectItem value="Single Wide">Single Wide (4ft)</SelectItem>
-              <SelectItem value="Double">Double</SelectItem>
-              <SelectItem value="One and Half">One and Half</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label>Stock</Label>
-          <Input
-            type="number"
-            value={stock}
-            onChange={(e) => setStock(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div>
-          <Label>Main Image</Label>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setMainImage(e.target.files?.[0] ?? null)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div>
-          <Label>Sub Images</Label>
-          <Input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => setSubImages(e.target.files)}
-            disabled={loading}
-          />
-        </div>
-        <Button type="submit" disabled={loading}>
-          {loading ? "Creating..." : "Create Door"}
-        </Button>
-      </form>
-    </div>
+    <>
+      <nav className="px-6 py-2 text-sm text-gray-600">
+        <ol className="flex items-center space-x-2">
+          <li>
+            <Link href="/admin" className="hover:underline text-blue-600">
+              Dashboard
+            </Link>
+          </li>
+          <li>/</li>
+          <li>
+            <Link href="/admin/doors" className="hover:underline text-blue-600">
+              Doors
+            </Link>
+          </li>
+          <li>/</li>
+          <li className="font-semibold text-gray-900">Create Door</li>
+        </ol>
+      </nav>
+      <DoorForm onSubmit={handleSubmit} isSubmitting={saving} />
+    </>
   );
 }

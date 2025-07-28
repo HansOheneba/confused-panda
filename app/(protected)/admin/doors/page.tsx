@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Plus } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Door {
   id: string;
@@ -61,54 +62,74 @@ export default function DoorsPage() {
         </Button>
       </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Image</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Price (GHS)</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Image</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Type</TableHead>
+            <TableHead>Price (GHS)</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
 
-          <TableBody>
-            {doors.map((door) => (
-              <TableRow key={door.id}>
-                <TableCell>
-                  {door.image_url && door.image_url.trim() !== "" ? (
-                    <Image
-                      src={door.image_url}
-                      alt={door.name}
-                      width={60}
-                      height={60}
-                      className="rounded object-cover"
-                    />
-                  ) : (
-                    <div className="w-[60px] h-[60px] bg-gray-200 flex items-center justify-center rounded text-xs text-gray-500">
-                      No Image
-                    </div>
-                  )}
-                </TableCell>
-                <TableCell>{door.name}</TableCell>
-                <TableCell>{door.type}</TableCell>
-                <TableCell>{Number(door.price).toFixed(2)}</TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant="outline"
-                    onClick={() => router.push(`/admin/doors/${door.id}/edit`)}
-                  >
-                    Edit
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
+        <TableBody>
+          {loading
+            ? // Skeleton loading state
+              Array.from({ length: 5 }).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <Skeleton className="w-[60px] h-[60px] rounded bg-gray-200" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[120px] bg-gray-200" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[80px] bg-gray-200" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[60px] bg-gray-200" />
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Skeleton className="h-9 w-[60px] ml-auto bg-gray-200" />
+                  </TableCell>
+                </TableRow>
+              ))
+            : // Actual data
+              doors.map((door) => (
+                <TableRow key={door.id}>
+                  <TableCell>
+                    {door.image_url && door.image_url.trim() !== "" ? (
+                      <Image
+                        src={door.image_url}
+                        alt={door.name}
+                        width={60}
+                        height={60}
+                        className="rounded object-cover"
+                      />
+                    ) : (
+                      <div className="w-[60px] h-[60px] bg-gray-200 flex items-center justify-center rounded text-xs text-gray-500">
+                        No Image
+                      </div>
+                    )}
+                  </TableCell>
+                  <TableCell>{door.name}</TableCell>
+                  <TableCell>{door.type}</TableCell>
+                  <TableCell>{Number(door.price).toFixed(2)}</TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      variant="outline"
+                      onClick={() =>
+                        router.push(`/admin/doors/${door.id}/edit`)
+                      }
+                    >
+                      Edit
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }

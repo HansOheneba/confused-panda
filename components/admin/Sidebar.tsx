@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const sidebarLinks = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/doors", label: "Manage Doors" },
-  { href: "/admin/users", label: "Users" },
+  { href: "/admin/properties", label: "Manage Properties" },
 ];
 
 const Sidebar: FC = () => {
