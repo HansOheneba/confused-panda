@@ -26,7 +26,7 @@ export default function ListingCard({ product }: { product: any }) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 px-4 py-3 space-y-2 flex flex-col justify-between">
+      <div className="flex-1 px-4 py-3 space-y-2 flex flex-col justify-around">
         <div>
           <h2 className="text-gray-800 text-sm font-medium line-clamp-2">
             {product.name}
@@ -34,7 +34,7 @@ export default function ListingCard({ product }: { product: any }) {
           <div className="flex justify-between items-center mt-1">
             <p className="text-sm text-gray-500">{product.type}</p>
             <span className="text-airbanBlue font-semibold text-sm">
-              GHS {product.price}
+              {product.price}
             </span>
           </div>
         </div>

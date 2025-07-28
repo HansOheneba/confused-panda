@@ -32,9 +32,17 @@ export default function DoorsPage() {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/doors`);
         const data = await res.json();
-        setDoors(data);
+        // Defensive: ensure data is always an array
+        if (Array.isArray(data)) {
+          setDoors(data);
+        } else if (Array.isArray(data.doors)) {
+          setDoors(data.doors);
+        } else {
+          setDoors([]);
+        }
       } catch (err) {
         console.error("Failed to fetch doors", err);
+        setDoors([]);
       } finally {
         setLoading(false);
       }
@@ -48,7 +56,7 @@ export default function DoorsPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">All Doors</h1>
         <Button onClick={() => router.push("/admin/doors/create")}>
-            <Plus className="" />
+          <Plus className="" />
           Add Door
         </Button>
       </div>
@@ -71,13 +79,19 @@ export default function DoorsPage() {
             {doors.map((door) => (
               <TableRow key={door.id}>
                 <TableCell>
-                  <Image
-                    src={door.image_url}
-                    alt={door.name}
-                    width={60}
-                    height={60}
-                    className="rounded object-cover"
-                  />
+                  {door.image_url && door.image_url.trim() !== "" ? (
+                    <Image
+                      src={door.image_url}
+                      alt={door.name}
+                      width={60}
+                      height={60}
+                      className="rounded object-cover"
+                    />
+                  ) : (
+                    <div className="w-[60px] h-[60px] bg-gray-200 flex items-center justify-center rounded text-xs text-gray-500">
+                      No Image
+                    </div>
+                  )}
                 </TableCell>
                 <TableCell>{door.name}</TableCell>
                 <TableCell>{door.type}</TableCell>
