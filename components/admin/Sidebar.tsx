@@ -7,6 +7,7 @@ const sidebarLinks = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/doors", label: "Manage Doors" },
   { href: "/admin/properties", label: "Manage Properties" },
+  { href: "/admin/orders", label: "Manage Orders" },
 ];
 
 const Sidebar: FC = () => {

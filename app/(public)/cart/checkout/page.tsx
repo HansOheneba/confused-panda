@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 import { CheckoutBreadcrumbs } from "@/components/checkout/CheckoutBreadcrumbs";
 import { AddressForm } from "@/components/checkout/AddressForm";
 import { PaymentForm } from "@/components/checkout/PaymentForm";
@@ -105,24 +107,46 @@ export default function CheckoutPage() {
     setStep("payment");
   };
 
-  const handlePaymentSubmit = (e: React.FormEvent) => {
+  const handlePaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Process payment and submit order
-    const orderData = {
-      address: addressInfo,
-      payment: paymentInfo,
-      items: cartItems,
-      total: cartItems.reduce(
-        (sum, item) => sum + Number(item.price) * item.quantity,
-        0
-      ),
-      createdAt: new Date().toISOString(),
+    // Prepare order payload for API
+    const orderPayload = {
+      name: addressInfo.firstName + " " + addressInfo.lastName,
+      phone: addressInfo.phone,
+      email: addressInfo.email,
+      address:
+        addressInfo.address + (addressInfo.city ? ", " + addressInfo.city : ""),
+      notes: addressInfo.additionalNotes,
+      items: cartItems.map((item) => ({
+        door_id: item.id,
+        quantity: item.quantity,
+        orientation: item.orientation,
+      })),
     };
 
-    console.log("Order submitted:", orderData);
-    localStorage.removeItem("cart");
-    localStorage.removeItem("checkoutAddress");
-    // Redirect to order confirmation page
+    try {
+      const res = await fetch(`${API_URL}/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderPayload),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to place order");
+      }
+      const data = await res.json();
+      // Save order to sessionStorage for confirmation page
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("orderConfirmation", JSON.stringify(data.order));
+      }
+      localStorage.removeItem("cart");
+      // Redirect to order confirmation page
+      window.location.href = "/order-confirmation";
+    } catch (err) {
+      alert("There was an error placing your order. Please try again.");
+      console.error(err);
+    }
   };
 
   const total = cartItems.reduce(
