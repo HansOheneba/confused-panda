@@ -134,7 +134,7 @@ export default function OrdersPage() {
                   <TableCell>
                     {order.is_confirmed ? (
                       <span className="text-green-600 font-medium">
-                        Confirmed
+                        Completed
                       </span>
                     ) : (
                       <span className="text-yellow-600 font-medium">

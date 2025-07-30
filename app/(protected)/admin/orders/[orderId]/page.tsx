@@ -122,7 +122,7 @@ export default function OrderDetailPage() {
                 <div>
                   {order.is_confirmed ? (
                     <span className="text-green-600 font-semibold">
-                      Confirmed
+                      Completed
                     </span>
                   ) : (
                     <span className="text-yellow-600 font-semibold">
@@ -183,8 +183,8 @@ export default function OrderDetailPage() {
                 onClick={async () => {
                   try {
                     const res = await fetch(
-                      `${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}/confirm`,
-                      { method: "PATCH" }
+                      `${process.env.NEXT_PUBLIC_API_URL}/orders/complete/${order.id}`,
+                      { method: "POST" }
                     );
                     if (res.ok) {
                       setOrder({ ...order, is_confirmed: 1 });
@@ -202,7 +202,14 @@ export default function OrderDetailPage() {
 
             <Button
               variant="destructive"
+              disabled={!!order.is_confirmed}
+              title={
+                order.is_confirmed
+                  ? "Completed orders cannot be deleted"
+                  : undefined
+              }
               onClick={async () => {
+                if (order.is_confirmed) return;
                 if (confirm("Are you sure you want to delete this order?")) {
                   try {
                     const res = await fetch(
@@ -210,7 +217,7 @@ export default function OrderDetailPage() {
                       { method: "DELETE" }
                     );
                     if (res.ok) {
-                      router.push("/dashboard/orders");
+                      router.back();
                     } else {
                       alert("Failed to delete order");
                     }
