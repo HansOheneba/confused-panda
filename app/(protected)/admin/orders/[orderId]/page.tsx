@@ -16,6 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface OrderItem {
   door_id: string;
   door_name: string;
+  door_type: string;
   orientation: string;
   quantity: number;
   unit_price: string;
@@ -148,6 +149,7 @@ export default function OrderDetailPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Door</TableHead>
+                    <TableHead>Type</TableHead>
                     <TableHead>Orientation</TableHead>
                     <TableHead>Quantity</TableHead>
                     <TableHead>Unit Price</TableHead>
@@ -158,6 +160,7 @@ export default function OrderDetailPage() {
                   {order.items.map((item, idx) => (
                     <TableRow key={item.door_id + idx}>
                       <TableCell>{item.door_name}</TableCell>
+                      <TableCell>{item.door_type}</TableCell>
                       <TableCell>{item.orientation}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell>
