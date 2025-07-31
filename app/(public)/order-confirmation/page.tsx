@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function OrderConfirmationPage({ searchParams }: any) {
   const [order, setOrder] = useState<any>(null);
@@ -29,91 +31,110 @@ export default function OrderConfirmationPage({ searchParams }: any) {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-airbanBlue/10 via-white to-white py-24 text-black">
-      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-airbanBlue mb-2">
-            Your Order has been placed!
-          </h1>
-          <p className="text-gray-600">
-            We've received your order and it's being processed, you should hear from us soon.
-          </p>
-        </div>
-
-        <section className="mb-6 space-y-2">
-          <h2 className="text-xl font-semibold text-gray-800">Order Summary</h2>
-          <div className="text-gray-700">
-            <div>
-              <span className="font-medium">Order ID:</span> {order.id}
+    <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white py-40   ">
+      <main className=" flex items-center justify-center py-10 px-4">
+        <div className="max-w-6xl w-full bg-white rounded-lg overflow-hidden p-5">
+          {/* Header Banner */}
+          <div className="bg-airbanBlue text-white p-10 flex items-center justify-between relative rounded-lg">
+            <h1 className="text-3xl font-extrabold">Thank You!!!</h1>
+            <div className="absolute right-6 bottom-0 hidden md:block">
+              <Image
+                src="/assets/banner.png"
+                alt="Door"
+                width={240}
+                height={120}
+              />
             </div>
-            <div>
-              <span className="font-medium">Date:</span>{" "}
-              {new Date(order.created_at).toLocaleString()}
-            </div>
-            <div>
-              <span className="font-medium">Email:</span> {order.email}
-            </div>
-            <div>
-              <span className="font-medium">Phone:</span> {order.phone_number}
-            </div>
-            <div>
-              <span className="font-medium">Address:</span> {order.location}
-            </div>
-            {order.notes && (
-              <div>
-                <span className="font-medium">Notes:</span> {order.notes}
-              </div>
-            )}
           </div>
-        </section>
 
-        <hr className="my-6" />
+          {/* Two-column layout */}
+          <div className="grid md:grid-cols-2 gap-6 p-6">
+            {/* Left Panel */}
+            <div className="">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                Your Order has been placed!
+              </h2>
+              <p className="text-gray-600 mb-4">
+                We've received your order and it's being processed, you should
+                hear from us soon.
+              </p>
+              <p className="text-gray-500 text-sm">
+                A copy of your order details has been sent to your email
+              </p>
 
-        <section className="mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">
-            Items Ordered
-          </h2>
-          <ul className="space-y-4">
-            {order.items.map((item: any, idx: number) => (
-              <li
-                key={idx}
-                className="p-4 bg-gray-50 rounded-lg border border-gray-200"
-              >
-                <div className="flex justify-between items-center mb-1">
-                  <span className="font-medium text-gray-900">
-                    {item.door_name}
+              <div className="mt-6">
+                <Link href="/doors">
+                  <Button className="w-full">Continue Shopping</Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Panel - Order Summary */}
+            <div className="bg-airbanBlue text-white p-6 rounded-md shadow-sm">
+              <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+              <div className="space-y-5 text-xs mb-10">
+                <div className="flex justify-between">
+                  <span className="font-semibold">Order ID</span>
+                  <span>{order.id}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold">Email</span>
+                  <span>{order.email}</span>
+                </div>
+                {order.notes && (
+                  <div className="flex justify-between">
+                    <span className="font-semibold">Notes</span>
+                    <span>{order.notes}</span>
+                  </div>
+                )}
+                <div className="flex justify-between items-center mt-2">
+                  <span className="font-semibold">TOTAL AMOUNT</span>
+                  <span className="text-xl font-bold">
+                    GHS {order.total_price}
                   </span>
-                  <span className="text-sm text-gray-600">
-                    x{item.quantity}
-                  </span>
                 </div>
-                <div className="text-sm text-gray-600">
-                  Orientation: {item.orientation || "Default"}
-                </div>
-                <div className="text-sm text-gray-600">
-                  Unit Price: GH₵{item.unit_price}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+              </div>
+              <hr className="border-gray-300/20" />
 
-        <div className="text-right text-lg font-bold text-airbanBlue mt-6">
-          Total: GH₵{order.total_price}
+              <div className="mt-6">
+                <h3 className="text-lg font-semibold text-white mb-5">
+                  Items Ordered
+                </h3>
+                <div className="space-y-4">
+                  {order.items.map((item: any, idx: number) => (
+                    <div
+                      key={idx}
+                      className="bg-white text-black p-4 rounded shadow-sm flex flex-col gap-2"
+                    >
+                      <div className="flex justify-between mb-1">
+                        <span className="font-semibold">{item.door_name}</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-700">
+                        <span>Orientation</span>
+                        <span className="font-semibold">{item.orientation || "Default"}</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-700">
+                        <span>Type</span>
+                        <span className="font-semibold">{item.door_type || "-"}</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-700">
+                        <span>Unit Price</span>
+                        <span className="font-semibold">GHS {item.unit_price}</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-700">
+                        <span>Quantity</span>
+                        <span className="font-semibold text-gray-700">
+                          x {item.quantity}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="mt-10 text-center">
-          <p className="text-gray-600 mb-4">
-            A copy of your order details has been sent to your email.
-          </p>
-          <Link
-            href="/doors"
-            className="inline-block px-6 py-3 bg-airbanBlue text-white rounded-full hover:bg-airbanBlue/90 transition"
-          >
-            Continue Shopping
-          </Link>
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
