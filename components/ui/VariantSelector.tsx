@@ -13,7 +13,7 @@ export function VariantSelector({
   return (
     <div className="space-y-2">
       <h3 className="text-sm font-medium text-gray-700">Select Orientation</h3>
-      <div className="flex gap-4">
+      <div className="flex gap-2">
         {options.map((option, idx) => (
           <button
             key={idx}

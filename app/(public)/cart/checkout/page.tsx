@@ -34,6 +34,20 @@ interface PaymentInfo {
   cvv: string;
 }
 
+// Simple toast for feedback
+function showToast(message: string) {
+  if (typeof window === "undefined") return;
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.className =
+    "fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg z-50 text-sm font-medium animate-fade-in-up";
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add("animate-fade-out");
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 2000);
+}
+
 export default function CheckoutPage() {
   const [step, setStep] = useState<"address" | "payment">("address");
   const [addressInfo, setAddressInfo] = useState<AddressInfo>({
@@ -53,6 +67,7 @@ export default function CheckoutPage() {
   });
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCompletingOrder, setIsCompletingOrder] = useState(false);
 
   // Load cart items and address info from localStorage
   useEffect(() => {
@@ -109,6 +124,8 @@ export default function CheckoutPage() {
 
   const handlePaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsCompletingOrder(true);
+    showToast("Placing your order...");
     // Prepare order payload for API
     const orderPayload = {
       name: addressInfo.firstName + " " + addressInfo.lastName,
@@ -141,11 +158,14 @@ export default function CheckoutPage() {
         sessionStorage.setItem("orderConfirmation", JSON.stringify(data.order));
       }
       localStorage.removeItem("cart");
-      // Redirect to order confirmation page
-      window.location.href = "/order-confirmation";
+      showToast("Order placed! Redirecting...");
+      setTimeout(() => {
+        window.location.href = "/order-confirmation";
+      }, 800);
     } catch (err) {
-      alert("There was an error placing your order. Please try again.");
+      showToast("There was an error placing your order. Please try again.");
       console.error(err);
+      setIsCompletingOrder(false);
     }
   };
 
@@ -198,6 +218,7 @@ export default function CheckoutPage() {
               <PaymentForm
                 onSubmit={handlePaymentSubmit}
                 onBack={() => setStep("address")}
+                isCompletingOrder={isCompletingOrder}
               />
             )}
           </div>

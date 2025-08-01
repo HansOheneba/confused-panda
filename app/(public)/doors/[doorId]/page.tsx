@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { VariantSelector } from "@/components/ui/VariantSelector";
 import Link from "next/link";
 import { CartItem } from "@/types";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // Improved toast implementation
@@ -39,6 +39,7 @@ interface DoorData {
 }
 
 export default function DoorDetailsPage() {
+  const router = useRouter();
   const params = useParams();
   // For dynamic route [doorId], param is doorId
   const id = params.doorId;
@@ -48,6 +49,7 @@ export default function DoorDetailsPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [isBuying, setIsBuying] = useState(false);
   const [currentImageIdx, setCurrentImageIdx] = useState(0);
 
   useEffect(() => {
@@ -131,6 +133,45 @@ export default function DoorDetailsPage() {
     } finally {
       setIsAdding(false);
     }
+  };
+
+  const handleBuyNow = () => {
+    if (!door || selectedVariant === null) return;
+    setIsBuying(true);
+    showToast("Processing your order...");
+    setTimeout(() => {
+      try {
+        const cartRaw = localStorage.getItem("cart");
+        const cart: CartItem[] = cartRaw ? JSON.parse(cartRaw) : [];
+        const orientation = door.variants![selectedVariant].orientation;
+        const existingItemIndex = cart.findIndex(
+          (item) => item.id === door.id && item.orientation === orientation
+        );
+        if (existingItemIndex >= 0) {
+          cart[existingItemIndex].quantity += quantity;
+        } else {
+          cart.push({
+            id: door.id,
+            name: door.name,
+            price: door.price,
+            image: door.image_url,
+            orientation,
+            quantity,
+          });
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        window.dispatchEvent(new Event("cartUpdated"));
+        showToast("Redirecting to checkout...");
+      } catch (error) {
+        showToast("Failed to add to cart");
+        setIsBuying(false);
+        return;
+      }
+      setTimeout(() => {
+        router.push("/cart/checkout");
+        setIsBuying(false);
+      }, 800);
+    }, 400);
   };
 
   const handlePrevImage = () => {
@@ -294,15 +335,13 @@ export default function DoorDetailsPage() {
                   }
                   onSelect={(idx) => {
                     setSelectedVariant(idx);
-                    setQuantity(1);
                   }}
                 />
-              </div>
-
-              {/* Bottom - Variant, quantity, button */}
-              <div className="space-y-4 mt-12">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center border border-gray-300 rounded">
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-sm font-medium text-gray-700">
+                    Quantity
+                  </h3>
+                  <div className="flex items-center border border-gray-300 rounded w-fit">
                     <button
                       className="p-2 hover:bg-gray-100"
                       onClick={handleMinus}
@@ -329,12 +368,26 @@ export default function DoorDetailsPage() {
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
+                </div>
+              </div>
+
+              {/* Bottom - Variant, quantity, button */}
+              <div className="space-y-4 mt-12">
+                <div className="flex items-center gap-4">
                   <Button
-                    className="bg-blue-900 hover:bg-blue-800 text-white px-8 py-2"
+                    variant={"outline"}
+                    className="w-32"
                     disabled={!isAddToCartEnabled || isAdding}
                     onClick={handleAddToCart}
                   >
                     {isAdding ? "Adding to Cart..." : "Add to Cart"}
+                  </Button>
+                  <Button
+                    disabled={!isAddToCartEnabled || isAdding || isBuying}
+                    className="w-32"
+                    onClick={handleBuyNow}
+                  >
+                    {isBuying ? "Processing..." : "Buy Now"}
                   </Button>
                 </div>
 

@@ -172,10 +172,8 @@ export default function CartPage() {
 
             {/* Free Installation Notice */}
             <div className="mt-6">
-              <div className="border border-gray-200 rounded-md p-3 bg-gray-50">
-                <p className="text-sm text-gray-700">
-                  Free Installation and Delivery in Accra
-                </p>
+              <div className="mt-4 text-xs text-gray-500 italic">
+                * Free installation and delivery available within Accra.
               </div>
             </div>
           </div>

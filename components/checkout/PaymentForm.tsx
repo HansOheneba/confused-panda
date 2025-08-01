@@ -18,9 +18,14 @@ interface AddressInfo {
 interface PaymentFormProps {
   onSubmit: (e: React.FormEvent) => void;
   onBack: () => void;
+  isCompletingOrder?: boolean;
 }
 
-export function PaymentForm({ onSubmit, onBack }: PaymentFormProps) {
+export function PaymentForm({
+  onSubmit,
+  onBack,
+  isCompletingOrder,
+}: PaymentFormProps) {
   const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
 
   useEffect(() => {
@@ -92,8 +97,12 @@ export function PaymentForm({ onSubmit, onBack }: PaymentFormProps) {
         <Button type="button" variant="outline" onClick={onBack}>
           Back to Address
         </Button>
-        <Button type="submit" className="bg-airbanBlue hover:bg-airbanBlue/90">
-          Complete Order
+        <Button
+          type="submit"
+          className="bg-airbanBlue hover:bg-airbanBlue/90"
+          disabled={!!isCompletingOrder}
+        >
+          {isCompletingOrder ? "Processing..." : "Complete Order"}
         </Button>
       </div>
     </form>
