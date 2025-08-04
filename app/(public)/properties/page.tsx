@@ -26,10 +26,10 @@ import FAQSection from "@/components/FAQSection";
 import { useState } from "react";
 import { properties as propertyList } from "@/lib/properties";
 
-// ...existing code...
+
 
 export default function PropertiesPage() {
-  // ...existing code...
+
 
   const faqs = [
     {

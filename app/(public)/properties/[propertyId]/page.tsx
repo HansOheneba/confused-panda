@@ -20,6 +20,20 @@ import FAQSection from "@/components/FAQSection";
 import { getPropertyById } from "@/lib/properties";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+// Simple toast for feedback
+const showToast = (message: string) => {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.className =
+    "fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg z-50 text-sm font-medium animate-fade-in-up";
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("animate-fade-out");
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 2000);
+};
+
 const propertyImages = [
   "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",
   "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",
@@ -43,6 +57,15 @@ export default function PropertyListing() {
     : params?.propertyId;
   const property = propertyId ? getPropertyById(propertyId) : undefined;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+    termsAccepted: false,
+  });
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 2) % propertyImages.length);
@@ -60,6 +83,72 @@ export default function PropertyListing() {
     const second =
       propertyImages[(currentImageIndex + 1) % propertyImages.length];
     return [first, second];
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    if (type === "checkbox") {
+      const checkbox = e.target as HTMLInputElement;
+      setFormData((prev) => ({ ...prev, [name]: checkbox.checked }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.termsAccepted) {
+      showToast("Please accept the terms and conditions");
+      return;
+    }
+
+    setIsSubmitting(true);
+    showToast("Submitting your enquiry...");
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/property`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            selected_property: property?.title || "Property",
+            message: formData.message,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit enquiry");
+      }
+
+      const data = await response.json();
+      showToast("Enquiry submitted successfully! We'll get back to you soon.");
+
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+        termsAccepted: false,
+      });
+    } catch (error) {
+      console.error("Error submitting enquiry:", error);
+      showToast("Failed to submit enquiry. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const faqs = [
@@ -284,15 +373,29 @@ export default function PropertyListing() {
                   and answering any questions you may have.
                 </p>
 
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" placeholder="Enter First Name" />
+                      <Input
+                        id="firstName"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        placeholder="Enter First Name"
+                        required
+                      />
                     </div>
                     <div>
                       <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" placeholder="Enter Last Name" />
+                      <Input
+                        id="lastName"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        placeholder="Enter Last Name"
+                        required
+                      />
                     </div>
                   </div>
 
@@ -301,13 +404,24 @@ export default function PropertyListing() {
                       <Label htmlFor="email">Email</Label>
                       <Input
                         id="email"
+                        name="email"
                         type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
                         placeholder="Enter Your Email"
+                        required
                       />
                     </div>
                     <div>
                       <Label htmlFor="phone">Phone</Label>
-                      <Input id="phone" placeholder="Enter Phone Number" />
+                      <Input
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="Enter Phone Number"
+                        required
+                      />
                     </div>
                   </div>
 
@@ -337,6 +451,9 @@ export default function PropertyListing() {
                     <Label htmlFor="message">Message</Label>
                     <Textarea
                       id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
                       placeholder="Enter your message here..."
                       className="min-h-[100px]"
                     />
@@ -344,7 +461,18 @@ export default function PropertyListing() {
 
                   <div className="space-y-3">
                     <div className="flex items-center">
-                      <Checkbox id="terms" className="mr-1" />
+                      <Checkbox
+                        id="terms"
+                        name="termsAccepted"
+                        checked={formData.termsAccepted}
+                        onCheckedChange={(checked) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            termsAccepted: !!checked,
+                          }))
+                        }
+                        className="mr-1"
+                      />
                       <Label htmlFor="terms" className="text-xs text-gray-500">
                         I agree with
                         <span className="text-black underline">
@@ -358,7 +486,13 @@ export default function PropertyListing() {
                     </div>
                   </div>
 
-                  <Button className="w-full">Send Your Message</Button>
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Send Your Message"}
+                  </Button>
                 </form>
               </CardContent>
             </Card>

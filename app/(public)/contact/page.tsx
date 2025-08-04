@@ -6,11 +6,99 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SelectContent, SelectItem } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import React from "react";
+import React, { useState } from "react";
 import ContactInfoCard from "@/components/ContactInfoCard";
 import Image from "next/image";
 
+// Simple toast for feedback
+const showToast = (message: string) => {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.className =
+    "fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg z-50 text-sm font-medium animate-fade-in-up";
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("animate-fade-out");
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 2000);
+};
+
 const contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    enquiryType: "",
+    message: "",
+  });
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, enquiryType: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.enquiryType) {
+      showToast("Please select an enquiry type");
+      return;
+    }
+
+    setIsSubmitting(true);
+    showToast("Submitting your enquiry...");
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/contact`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            enquiry_type: formData.enquiryType,
+            additional_info: formData.message,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit enquiry");
+      }
+
+      const data = await response.json();
+      showToast("Enquiry submitted successfully! We'll get back to you soon.");
+
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        enquiryType: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting enquiry:", error);
+      showToast("Failed to submit enquiry. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40   ">
       {/* Hero Section */}
@@ -23,7 +111,7 @@ const contact = () => {
               </h1>
               <p className="text-xs opacity-90 max-w-md">
                 Welcome to Estatein's Contact Us page. We're here to assist you
-                with any inquiries,  requests, or feedback you may have. Whether
+                with any inquiries, requests, or feedback you may have. Whether
                 you're looking to buy or sell a property, explore investment
                 opportunities, or simply want to connect, we're just a message
                 away. Reach out to us, and let's start a conversation.
@@ -45,15 +133,29 @@ const contact = () => {
         <div className="lg:col-span-2">
           <Card>
             <CardContent className="p-6">
-              <form className="space-y-8">
+              <form className="space-y-8" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" placeholder="Enter First Name" />
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      placeholder="Enter First Name"
+                      required
+                    />
                   </div>
                   <div>
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" placeholder="Enter Last Name" />
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      placeholder="Enter Last Name"
+                      required
+                    />
                   </div>
                 </div>
 
@@ -62,40 +164,56 @@ const contact = () => {
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       placeholder="Enter Your Email"
+                      required
                     />
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" placeholder="Enter Phone Number" />
+                    <Input
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Enter Phone Number"
+                      required
+                    />
                   </div>
                   <div className="col-span-2">
                     <Label className="mb-1" htmlFor="property">
                       What is your enquiry about?
                     </Label>
-                    <Select>
+                    <Select
+                      value={formData.enquiryType}
+                      onValueChange={handleSelectChange}
+                    >
                       <SelectTrigger id="enquiryType" className="w-full">
                         <SelectValue placeholder="Select an option" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="buying">
+                        <SelectItem value="Buying a Property">
                           Buying a Property
                         </SelectItem>
-                        <SelectItem value="selling">
+                        <SelectItem value="Selling a Property">
                           Selling a Property
                         </SelectItem>
-                        <SelectItem value="renting">
+                        <SelectItem value="Renting a Property">
                           Renting a Property
                         </SelectItem>
-                        <SelectItem value="investment">
+                        <SelectItem value="Investment Opportunities">
                           Investment Opportunities
                         </SelectItem>
-                        <SelectItem value="general">General Enquiry</SelectItem>
-                        <SelectItem value="support">
+                        <SelectItem value="General Enquiry">
+                          General Enquiry
+                        </SelectItem>
+                        <SelectItem value="Support/Assistance">
                           Support/Assistance
                         </SelectItem>
-                        <SelectItem value="feedback">Feedback</SelectItem>
+                        <SelectItem value="Feedback">Feedback</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -107,12 +225,17 @@ const contact = () => {
                   </Label>
                   <Textarea
                     id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
                     placeholder="Enter your message here..."
                     className="min-h-[100px]"
                   />
                 </div>
 
-                <Button className="w-fit">Send Your Message</Button>
+                <Button type="submit" className="w-fit" disabled={isSubmitting}>
+                  {isSubmitting ? "Submitting..." : "Send Your Message"}
+                </Button>
               </form>
             </CardContent>
           </Card>
