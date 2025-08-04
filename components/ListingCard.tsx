@@ -33,9 +33,9 @@ export default function ListingCard({ product }: { product: any }) {
           </h2>
           <div className="flex justify-between items-center mt-1">
             <p className="text-sm text-gray-500">{product.type}</p>
-            <span className="text-airbanBlue font-semibold text-sm">
+            {/* <span className="text-airbanBlue font-semibold text-sm">
               {product.price}
-            </span>
+            </span> */}
           </div>
         </div>
 

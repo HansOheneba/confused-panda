@@ -320,9 +320,9 @@ export default function DoorDetailsPage() {
                       {door.type} Door
                     </span>
                   </p>
-                  <p className="text-lg font-semibold text-[#17183B]">
+                  {/* <p className="text-lg font-semibold text-[#17183B]">
                     GHS {door.price}
-                  </p>
+                  </p> */}
                 </div>
 
                 <p className="text-gray-600 leading-relaxed">
