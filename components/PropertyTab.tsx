@@ -4,12 +4,12 @@ import { Button } from "./ui/button";
 
 export default function PropertyTabs() {
   const [activeTab, setActiveTab] = useState<"buy" | "sell">("buy");
+  const [showModal, setShowModal] = useState(false);
 
   const buyLocations = ["Spintex, Accra", "East Legon", "Dzorwulu"];
   const priceRanges = ["GH₵ 100k - 200k", "GH₵ 200k - 500k", "GH₵ 500k+"];
 
-  const sellTypes = ["3-Bedroom House", "Apartment", "Commercial Space"];
-  const sellLocations = ["East Legon", "Airport Residential", "Tema"];
+  const sellOptions = ["Buy", "Sell"];
 
   return (
     <div className="w-full px-4 sm:px-0 max-w-4xl mx-auto">
@@ -71,24 +71,12 @@ export default function PropertyTabs() {
             <>
               <div className=" px-3 flex-1">
                 <label className="block text-slate-500 mb-1 text-xs">
-                  Property Type
+                  Action
                 </label>
                 <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
-                  {sellTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className=" px-3 flex-1">
-                <label className="block text-slate-500 mb-1 text-xs">
-                  Location
-                </label>
-                <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
-                  {sellLocations.map((loc) => (
-                    <option key={loc} value={loc}>
-                      {loc}
+                  {sellOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
                     </option>
                   ))}
                 </select>
@@ -100,14 +88,45 @@ export default function PropertyTabs() {
         {/* CTA Button */}
         <div className="border-t sm:border-t-0 sm:border-l border-slate-200 w-full sm:w-auto">
           <div className="p-4 sm:px-6 flex items-center h-full justify-center">
-            <Link href="/properties" >
-              <Button className="">
-                {activeTab === "buy" ? "Browse Properties" : "List Property"}
+            {activeTab === "buy" ? (
+              <Link href="/properties">
+                <Button className="">Browse Properties</Button>
+              </Link>
+            ) : (
+              <Button className="" onClick={() => setShowModal(true)}>
+                List Property
               </Button>
-            </Link>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Property Listing Form
+            </h3>
+            <p className="text-gray-600 mb-6">
+              You are about to be redirected to a form to fill in the details of
+              your property.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2"
+              >
+                Cancel
+              </Button>
+              <Link href="/properties">
+                <Button className="px-4 py-2">Continue</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

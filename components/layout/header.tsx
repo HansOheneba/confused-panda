@@ -79,7 +79,7 @@ export function Header() {
       className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 ease-in-out transform
       ${show ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
       ${
-        isScrolled ? "bg-black/20 backdrop-blur-sm py-3" : "bg-transparent py-6"
+        isScrolled ? "bg-black/40 backdrop-blur-sm py-3" : "bg-transparent py-6"
       }
       ${initialShowClass}`}
     >
