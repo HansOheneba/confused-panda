@@ -13,31 +13,31 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 
-interface PropertyEnquiry {
+interface Enquiry {
   id: string;
   first_name: string;
   last_name: string;
   email: string;
   phone: string;
-  selected_property: string;
-  message: string;
+  enquiry_type: string;
+  additional_info: string;
   resolved: string;
   submitted_at: string;
 }
 
-const Properties = () => {
-  const [enquiries, setEnquiries] = useState<PropertyEnquiry[]>([]);
+const EnquiriesPage = () => {
+  const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchPropertyEnquiries = async () => {
+    const fetchEnquiries = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/property`
+          `${process.env.NEXT_PUBLIC_API_URL}/contact`
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch property enquiries");
+          throw new Error("Failed to fetch enquiries");
         }
         const data = await response.json();
         if (Array.isArray(data)) {
@@ -46,20 +46,30 @@ const Properties = () => {
           setEnquiries([]);
         }
       } catch (err) {
-        console.error("Error fetching property enquiries:", err);
+        console.error("Error fetching enquiries:", err);
         setEnquiries([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPropertyEnquiries();
+    fetchEnquiries();
   }, []);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold">Property Enquiries</h1>
+        <h1 className="text-2xl font-semibold">All Enquiries</h1>
       </div>
 
       <Table>
@@ -69,7 +79,7 @@ const Properties = () => {
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
-            <TableHead>Property</TableHead>
+            <TableHead>Enquiry Type</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
@@ -91,13 +101,13 @@ const Properties = () => {
                     <Skeleton className="h-4 w-[120px] bg-gray-200" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="h-4 w-[160px] bg-gray-200" />
+                    <Skeleton className="h-4 w-[100px] bg-gray-200" />
                   </TableCell>
                   <TableCell>
                     <Skeleton className="h-4 w-[80px] bg-gray-200" />
                   </TableCell>
                   <TableCell className="text-right">
-                    <Skeleton className="h-9 w-[120px] ml-auto bg-gray-200" />
+                    <Skeleton className="h-9 w-[100px] ml-auto bg-gray-200" />
                   </TableCell>
                 </TableRow>
               ))
@@ -132,8 +142,8 @@ const Properties = () => {
                   <TableCell>{enquiry.email}</TableCell>
                   <TableCell>{enquiry.phone}</TableCell>
                   <TableCell>
-                    <span className="text-sm bg-blue-100 px-2 py-1 rounded text-blue-700">
-                      {enquiry.selected_property}
+                    <span className="text-sm bg-gray-100 px-2 py-1 rounded text-gray-700">
+                      {enquiry.enquiry_type}
                     </span>
                   </TableCell>
                   <TableCell>
@@ -151,7 +161,7 @@ const Properties = () => {
                     <Button
                       variant="outline"
                       onClick={() =>
-                        router.push(`/admin/properties/${enquiry.id}`)
+                        router.push(`/admin/enquiries/${enquiry.id}`)
                       }
                     >
                       View Enquiry
@@ -165,4 +175,4 @@ const Properties = () => {
   );
 };
 
-export default Properties;
+export default EnquiriesPage;
