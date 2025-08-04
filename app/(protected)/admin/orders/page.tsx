@@ -12,6 +12,14 @@ import {
 } from "@/components/ui/table";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface Order {
   id: string;
@@ -27,6 +35,8 @@ interface Order {
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const router = useRouter();
 
   useEffect(() => {
@@ -51,28 +61,42 @@ export default function OrdersPage() {
     fetchOrders();
   }, []);
 
+  // Pagination logic
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentOrders = orders.slice(startIndex, endIndex);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">All Orders</h1>
+        <div className="text-sm text-gray-500">
+          {orders.length} total orders
+        </div>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead>Client</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Phone</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead>Price (GHS)</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {loading
-            ? Array.from({ length: 5 }).map((_, index) => (
+      <div className="bg-white rounded-lg border p-5">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Date</TableHead>
+              <TableHead>Client</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Phone</TableHead>
+              <TableHead>Location</TableHead>
+              <TableHead>Price (GHS)</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {loading ? (
+              Array.from({ length: itemsPerPage }).map((_, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     <Skeleton className="h-4 w-[120px] bg-gray-200" />
@@ -100,7 +124,8 @@ export default function OrdersPage() {
                   </TableCell>
                 </TableRow>
               ))
-            : orders.map((order) => (
+            ) : currentOrders.length > 0 ? (
+              currentOrders.map((order) => (
                 <TableRow key={order.id}>
                   <TableCell className="whitespace-nowrap">
                     <div className="flex flex-col leading-tight">
@@ -151,9 +176,75 @@ export default function OrdersPage() {
                     </Button>
                   </TableCell>
                 </TableRow>
-              ))}
-        </TableBody>
-      </Table>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={8}
+                  className="text-center py-8 text-gray-500"
+                >
+                  No orders found
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="border-t px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-500">
+                Showing {startIndex + 1} to {Math.min(endIndex, orders.length)}{" "}
+                of {orders.length} results
+              </div>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() =>
+                        currentPage > 1 && goToPage(currentPage - 1)
+                      }
+                      className={
+                        currentPage <= 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          onClick={() => goToPage(page)}
+                          isActive={currentPage === page}
+                          className="cursor-pointer"
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                  )}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() =>
+                        currentPage < totalPages && goToPage(currentPage + 1)
+                      }
+                      className={
+                        currentPage >= totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

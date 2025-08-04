@@ -12,6 +12,14 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface PropertyEnquiry {
   id: string;
@@ -28,6 +36,8 @@ interface PropertyEnquiry {
 const Properties = () => {
   const [enquiries, setEnquiries] = useState<PropertyEnquiry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const router = useRouter();
 
   useEffect(() => {
@@ -56,27 +66,41 @@ const Properties = () => {
     fetchPropertyEnquiries();
   }, []);
 
+  // Pagination logic
+  const totalPages = Math.ceil(enquiries.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentEnquiries = enquiries.slice(startIndex, endIndex);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Property Enquiries</h1>
+        <div className="text-sm text-gray-500">
+          {enquiries.length} total enquiries
+        </div>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Phone</TableHead>
-            <TableHead>Property</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {loading
-            ? Array.from({ length: 5 }).map((_, index) => (
+      <div className="bg-white rounded-lg border p-5">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Date</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Phone</TableHead>
+              <TableHead>Property</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {loading ? (
+              Array.from({ length: itemsPerPage }).map((_, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     <Skeleton className="h-4 w-[120px] bg-gray-200" />
@@ -101,7 +125,8 @@ const Properties = () => {
                   </TableCell>
                 </TableRow>
               ))
-            : enquiries.map((enquiry) => (
+            ) : currentEnquiries.length > 0 ? (
+              currentEnquiries.map((enquiry) => (
                 <TableRow key={enquiry.id}>
                   <TableCell className="whitespace-nowrap">
                     <div className="flex flex-col leading-tight">
@@ -158,9 +183,76 @@ const Properties = () => {
                     </Button>
                   </TableCell>
                 </TableRow>
-              ))}
-        </TableBody>
-      </Table>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={7}
+                  className="text-center py-8 text-gray-500"
+                >
+                  No property enquiries found
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="border-t px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-500">
+                Showing {startIndex + 1} to{" "}
+                {Math.min(endIndex, enquiries.length)} of {enquiries.length}{" "}
+                results
+              </div>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() =>
+                        currentPage > 1 && goToPage(currentPage - 1)
+                      }
+                      className={
+                        currentPage <= 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          onClick={() => goToPage(page)}
+                          isActive={currentPage === page}
+                          className="cursor-pointer"
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                  )}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() =>
+                        currentPage < totalPages && goToPage(currentPage + 1)
+                      }
+                      className={
+                        currentPage >= totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

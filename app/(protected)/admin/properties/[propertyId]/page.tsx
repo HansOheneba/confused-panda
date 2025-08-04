@@ -74,7 +74,7 @@ const PropertyEnquiryDetailPage = () => {
     setUpdating(true);
     const isCurrentlyResolved = enquiry.resolved === "yes";
     const endpoint = isCurrentlyResolved ? "unresolve" : "resolve";
-    
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/property/${propertyId}/${endpoint}`,
@@ -93,8 +93,8 @@ const PropertyEnquiryDetailPage = () => {
 
       // Show success toast with undo option
       toast(
-        isCurrentlyResolved 
-          ? "Enquiry marked as pending" 
+        isCurrentlyResolved
+          ? "Enquiry marked as pending"
           : "Enquiry marked as resolved",
         {
           description: `Property enquiry for ${enquiry.first_name} ${enquiry.last_name}`,
@@ -102,7 +102,9 @@ const PropertyEnquiryDetailPage = () => {
             label: "Undo",
             onClick: async () => {
               try {
-                const undoEndpoint = isCurrentlyResolved ? "resolve" : "unresolve";
+                const undoEndpoint = isCurrentlyResolved
+                  ? "resolve"
+                  : "unresolve";
                 const undoResponse = await fetch(
                   `${process.env.NEXT_PUBLIC_API_URL}/property/${propertyId}/${undoEndpoint}`,
                   {
@@ -112,7 +114,9 @@ const PropertyEnquiryDetailPage = () => {
                 );
 
                 if (undoResponse.ok) {
-                  setEnquiry((prev) => (prev ? { ...prev, resolved: enquiry.resolved } : null));
+                  setEnquiry((prev) =>
+                    prev ? { ...prev, resolved: enquiry.resolved } : null
+                  );
                   toast("Status reverted successfully");
                 }
               } catch (err) {
@@ -127,11 +131,10 @@ const PropertyEnquiryDetailPage = () => {
       setTimeout(() => {
         router.push("/admin/properties");
       }, 2000);
-
     } catch (err) {
       console.error("Error updating property enquiry status:", err);
       toast("Failed to update enquiry status", {
-        description: "Please try again later"
+        description: "Please try again later",
       });
     } finally {
       setUpdating(false);

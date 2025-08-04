@@ -72,7 +72,7 @@ const EnquiryDetailPage = () => {
     setUpdating(true);
     const isCurrentlyResolved = enquiry.resolved === "yes";
     const endpoint = isCurrentlyResolved ? "unresolve" : "resolve";
-    
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/contact/${enquiryId}/${endpoint}`,
@@ -91,8 +91,8 @@ const EnquiryDetailPage = () => {
 
       // Show success toast with undo option
       toast(
-        isCurrentlyResolved 
-          ? "Enquiry marked as pending" 
+        isCurrentlyResolved
+          ? "Enquiry marked as pending"
           : "Enquiry marked as resolved",
         {
           description: `Contact enquiry from ${enquiry.first_name} ${enquiry.last_name}`,
@@ -100,7 +100,9 @@ const EnquiryDetailPage = () => {
             label: "Undo",
             onClick: async () => {
               try {
-                const undoEndpoint = isCurrentlyResolved ? "resolve" : "unresolve";
+                const undoEndpoint = isCurrentlyResolved
+                  ? "resolve"
+                  : "unresolve";
                 const undoResponse = await fetch(
                   `${process.env.NEXT_PUBLIC_API_URL}/contact/${enquiryId}/${undoEndpoint}`,
                   {
@@ -110,7 +112,9 @@ const EnquiryDetailPage = () => {
                 );
 
                 if (undoResponse.ok) {
-                  setEnquiry((prev) => (prev ? { ...prev, resolved: enquiry.resolved } : null));
+                  setEnquiry((prev) =>
+                    prev ? { ...prev, resolved: enquiry.resolved } : null
+                  );
                   toast("Status reverted successfully");
                 }
               } catch (err) {
@@ -125,11 +129,10 @@ const EnquiryDetailPage = () => {
       setTimeout(() => {
         router.push("/admin/enquiries");
       }, 2000);
-
     } catch (err) {
       console.error("Error updating enquiry status:", err);
       toast("Failed to update enquiry status", {
-        description: "Please try again later"
+        description: "Please try again later",
       });
     } finally {
       setUpdating(false);
