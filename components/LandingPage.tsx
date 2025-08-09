@@ -23,9 +23,9 @@ const landingPage = () => {
               Distinctive Homes
             </h1>
             <p className="text-sm sm:text-lg mb-6 sm:mb-8 leading-relaxed 2">
-              Your dream home is closer than you think.{" "}
+              Explore a curated collection of homes that redefine modern living.{" "}
               <br className="hidden sm:block" />
-              With Airban Homes, homeownership becomes simple, seamless.
+              Find your perfect space with our intuitive search tools.
             </p>
           </div>
           <div className="w-full sm:max-w-xl">

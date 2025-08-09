@@ -9,7 +9,7 @@ export default function PropertyTabs() {
   const buyLocations = ["Spintex, Accra", "East Legon", "Dzorwulu"];
   const priceRanges = ["GH₵ 100k - 200k", "GH₵ 200k - 500k", "GH₵ 500k+"];
 
-  const sellOptions = ["Buy", "Sell"];
+  const sellOptions = ["House", "Land"];
 
   return (
     <div className="w-full px-4 sm:px-0 max-w-4xl mx-auto">
@@ -71,7 +71,7 @@ export default function PropertyTabs() {
             <>
               <div className=" px-3 flex-1">
                 <label className="block text-slate-500 mb-1 text-xs">
-                  Action
+                  Sell
                 </label>
                 <select className="w-full p-1 bg-transparent border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-400 text-black font-semibold">
                   {sellOptions.map((option) => (

@@ -5,13 +5,11 @@ export default function ContactInfoCard() {
     <div className="max-w-md space-y-6 text-gray-700 p-10">
       <div>
         <h2 className="text-2xl font-semibold text-black">
-          Get in touch to schedule
-          <br />a visit to your new house.
+          Schedule a Property Tour
         </h2>
         <p className="mt-2 text-sm text-gray-600">
-          Kindly fill this form with your details about your inquiries
-          <br />
-          and we would respond your inquiry shortly.
+          Experience your dream home in person. Contact us to arrange a private
+          viewing tailored to your schedule.
         </p>
       </div>
 
@@ -22,8 +20,8 @@ export default function ContactInfoCard() {
         <div className="flex items-start gap-3">
           <Send className="w-5 h-5 text-black mt-0.5" />
           <div>
-            <p className="font-medium text-gray-800">Send an email</p>
-            <p className="text-gray-600">contact@ecohavenrealty.com</p>
+            <p className="font-medium text-gray-800">Email</p>
+            <p className="text-gray-600">info@myairbanhomes.com</p>
           </div>
         </div>
 
@@ -31,8 +29,9 @@ export default function ContactInfoCard() {
         <div className="flex items-start gap-3">
           <Phone className="w-5 h-5 text-black mt-0.5" />
           <div>
-            <p className="font-medium text-gray-800">Give us a call</p>
-            <p className="text-gray-600">+234905 121 8127</p>
+            <p className="font-medium text-gray-800">Phone</p>
+            <p className="text-gray-600">(+233) 30 298 4032</p>
+            <p className="text-gray-600">(+233) 54 068 9387</p>
           </div>
         </div>
 
@@ -40,9 +39,9 @@ export default function ContactInfoCard() {
         <div className="flex items-start gap-3">
           <MapPin className="w-5 h-5 text-black mt-0.5" />
           <div>
-            <p className="font-medium text-gray-800">Office address</p>
+            <p className="font-medium text-gray-800">Office Address</p>
             <p className="text-gray-600">
-              11, Odo–Olowu, Ijeshatedo B/Stop, Surulere
+              Jacob Ave, Accra
             </p>
           </div>
         </div>
@@ -51,8 +50,8 @@ export default function ContactInfoCard() {
         <div className="flex items-start gap-3">
           <Clock className="w-5 h-5 text-black mt-0.5" />
           <div>
-            <p className="font-medium text-gray-800">Working hours</p>
-            <p className="text-gray-600">Mon – Sat: 10am – 4pm</p>
+            <p className="font-medium text-gray-800">Office Hours</p>
+            <p className="text-gray-600">Mon – Sat: 8:00 AM – 6:00 PM</p>
           </div>
         </div>
       </div>

@@ -45,8 +45,8 @@ export function PropertyCard({
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-baseline">
-            <span className="text-xl font-bold text-airbanBlue">{price}</span>
-            <span className="text-gray-500 ml-1">{period}</span>
+            {/* <span className="text-xl font-bold text-airbanBlue">{price}</span> */}
+            {/* <span className="text-gray-500 ml-1">{period}</span> */}
           </div>
         </div>
         <h3 className="font-semibold mb-1">{title}</h3>

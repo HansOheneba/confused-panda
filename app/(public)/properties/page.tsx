@@ -66,11 +66,12 @@ export default function PropertiesPage() {
                 Find Your Dream Property
               </h1>
               <p className="text-sm opacity-90 max-w-2xl">
-                Welcome to Estatein, where your dream property awaits in every
-                corner of our beautiful world. Explore our curated selection of
-                properties, each offering a unique story and a chance to
-                redefine your life. With categories to suit every dreamer, your
-                journey
+                Welcome to Airban Homes, where your dream home awaits in the
+                most desirable locations across Ghana and beyond. Explore our
+                handpicked collection of premium properties — each with its own
+                unique story, lifestyle, and investment potential. With options
+                to suit every taste and budget, your perfect home is just a step
+                away.
               </p>
             </div>
           </div>
@@ -172,9 +173,12 @@ export default function PropertiesPage() {
               Discover a World of Possibilities
             </h2>
             <p className="text-sm max-w-3xl">
-              Our portfolio of properties is as diverse as your dreams. Explore
-              the following categories to find the perfect property that
-              resonates with your vision of home
+              At Airban Homes, we believe a home is more than just a place to
+              live — it’s where your dreams take shape. Our diverse portfolio
+              includes elegant city residences, serene beachfront villas, family
+              estates, and modern apartments. Each property is carefully
+              selected to meet our high standards of quality, style, and
+              comfort.
             </p>
           </div>
 
