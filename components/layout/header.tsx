@@ -186,6 +186,7 @@ function NavLinks({
     { href: "/properties", label: "Properties" },
     { href: "/contact", label: "Contact Us" },
     { href: "/about", label: "About Us" },
+    { href: "/news", label: "News" },
   ];
 
   return (

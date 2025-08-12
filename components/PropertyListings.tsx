@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/ui/PropertyCard";
-import { getProperties } from "@/lib/properties";
+import { getPropertiesSync } from "@/lib/properties";
 import Link from "next/link";
 
 export function PropertyListings() {
-  const properties = getProperties();
+  const properties = getPropertiesSync();
 
   return (
     <div className=" flex bg-gradient-to-b from-white to-[#E2F0FF] ">
@@ -19,11 +19,11 @@ export function PropertyListings() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {properties.map((property) => (
-              <PropertyCard key={property.id} {...property} />
+              <PropertyCard key={property.id} {...property} id={property.id} />
             ))}
           </div>
 
-          <Link href="/properties" className="text-center" >
+          <Link href="/properties" className="text-center">
             <div className="text-center">
               <Button className="">Browse more properties</Button>
             </div>

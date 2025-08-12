@@ -17,7 +17,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import FAQSection from "@/components/FAQSection";
-import { getPropertyById } from "@/lib/properties";
+import { getPropertyByIdSync } from "@/lib/properties";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Simple toast for feedback
@@ -34,28 +34,38 @@ const showToast = (message: string) => {
   }, 2000);
 };
 
-const propertyImages = [
-  "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=600&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=600&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1460518451285-97b6aa326961?w=600&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=600&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=600&h=400&fit=crop",
-];
-
-const thumbnailImages = propertyImages.map((img) =>
-  img.replace("w=600&h=400", "w=80&h=80")
-);
-
 export default function PropertyListing() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleImageClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const params = useParams();
   const propertyId = Array.isArray(params?.propertyId)
     ? params.propertyId[0]
     : params?.propertyId;
-  const property = propertyId ? getPropertyById(propertyId) : undefined;
+  const property = propertyId ? getPropertyByIdSync(propertyId) : undefined;
+
+  // Use property images from the lib file, with fallbacks
+  const propertyImages =
+    property?.subImages && property.subImages.length > 0
+      ? [property.image, ...property.subImages]
+      : property?.image
+      ? [property.image]
+      : [
+          "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=600&h=400&fit=crop",
+        ];
+
+  const thumbnailImages = propertyImages.map((img) =>
+    img.includes("unsplash") ? img.replace("w=600&h=400", "w=80&h=80") : img
+  );
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -68,21 +78,18 @@ export default function PropertyListing() {
   });
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 2) % propertyImages.length);
+    setCurrentImageIndex((prev) => (prev + 1) % propertyImages.length);
   };
 
   const prevImage = () => {
     setCurrentImageIndex(
-      (prev) => (prev - 2 + propertyImages.length) % propertyImages.length
+      (prev) => (prev - 1 + propertyImages.length) % propertyImages.length
     );
   };
 
-  // Show two images at a time
-  const getVisibleImages = () => {
-    const first = propertyImages[currentImageIndex];
-    const second =
-      propertyImages[(currentImageIndex + 1) % propertyImages.length];
-    return [first, second];
+  // Show one image at a time
+  const getVisibleImage = () => {
+    return propertyImages[currentImageIndex];
   };
 
   const handleInputChange = (
@@ -196,17 +203,16 @@ export default function PropertyListing() {
           </div>
         </div>
         {/* Image Gallery */}
-        <Card>
+        <Card className="bg-transparent border-none shadow-none">
           <CardContent className="p-4">
-            {/* Thumbnail Navigation */}
-            <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+            {/* Thumbnail Navigation (centered) */}
+            <div className="flex justify-center gap-2 mb-4 overflow-x-auto pb-2">
               {thumbnailImages.map((thumb, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}
                   className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                    currentImageIndex === index ||
-                    currentImageIndex + 1 === index
+                    currentImageIndex === index
                       ? "border-blue-500"
                       : "border-gray-200"
                   }`}
@@ -222,36 +228,58 @@ export default function PropertyListing() {
               ))}
             </div>
 
-            {/* Main Image Display (2 at a time) */}
-            <div className="grid md:grid-cols-2 gap-4">
-              {getVisibleImages().map((img, idx) => (
-                <div className="relative" key={idx}>
-                  <Image
-                    src={img || "/placeholder.svg"}
-                    alt={`Property main view ${idx + 1}`}
-                    width={600}
-                    height={400}
-                    className="w-full h-80 object-cover rounded-lg"
-                  />
-                  {idx === 0 && (
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-                    >
-                      <ChevronLeft className="w-5 h-5" />
-                    </button>
-                  )}
-                  {idx === 1 && (
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-                    >
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
-                  )}
-                </div>
-              ))}
+            {/* Main Image Display (1 at a time, centered) */}
+            <div className="flex justify-center items-center relative h-80 mb-4">
+              <button
+                onClick={prevImage}
+                className="absolute left-2 top-1/2 -translate-y-1/2 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-10"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <div className="cursor-zoom-in">
+                <Image
+                  src={getVisibleImage() || "/placeholder.svg"}
+                  alt={`Property main view`}
+                  width={600}
+                  height={400}
+                  className="object-cover rounded-lg mx-auto h-80"
+                  onClick={handleImageClick}
+                />
+              </div>
+              <button
+                onClick={nextImage}
+                className="absolute right-2 top-1/2 -translate-y-1/2  text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10"
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
+
+            {/* Modal for enlarged image */}
+            {isModalOpen && (
+              <div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+                onClick={handleCloseModal}
+              >
+                <div className="relative">
+                  <Image
+                    src={getVisibleImage() || "/placeholder.svg"}
+                    alt="Enlarged property view"
+                    width={1200}
+                    height={800}
+                    className="rounded-lg shadow-2xl max-w-full max-h-[80vh]"
+                  />
+                  <button
+                    onClick={handleCloseModal}
+                    className="absolute top-2 right-2 h-10 w-10 flex items-center justify-center bg-white/50 text-black rounded-full p-3 hover:bg-gray-200"
+                    aria-label="Close"
+                  >
+                    &#10005;
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Image Navigation Dots */}
             <div className="flex justify-center gap-2 mt-4">
@@ -260,7 +288,9 @@ export default function PropertyListing() {
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}
                   className={`w-3 h-3 rounded-full transition-colors ${
-                    currentImageIndex === index ? "bg-blue-600" : "bg-gray-300"
+                    currentImageIndex === index
+                      ? "bg-airbanBlue"
+                      : "bg-gray-300"
                   }`}
                 />
               ))}
@@ -293,7 +323,7 @@ export default function PropertyListing() {
                     </span>
                   </div>
                   <span className="text-lg font-semibold text-gray-900">
-                    {property?.beds?.toString().padStart(2, "0") || "-"}
+                    {property?.bedrooms?.toString().padStart(2, "0") || "-"}
                   </span>
                 </div>
                 <div className="flex flex-col items-start gap-1 p-3">
@@ -364,8 +394,8 @@ export default function PropertyListing() {
           <div className="lg:col-span-2">
             <Card>
               <CardContent className="p-6">
-                <h2 className="text-xl font-semibold mb-2">
-                  Inquire About Seaside Serenity Villa
+                <h2 className="text-md text-gray-600 font-semibold mb-2">
+                  {`Inquire About ${property?.title || "this property"}`}
                 </h2>
                 <p className="text-gray-600 text-sm mb-6">
                   Interested in this property? Our real estate experts will get
