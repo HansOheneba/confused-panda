@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       "via.placeholder.com",
       "images.unsplash.com",
       "source.unsplash.com",
+      "picsum.photos",
       "example.com",
       "i.ibb.co",
     ],
