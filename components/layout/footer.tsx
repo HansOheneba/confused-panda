@@ -112,13 +112,13 @@ export function Footer() {
             </h3>
             <nav className="flex flex-col space-y-3">
               <Link
-                href="#"
+                href="terms-of-service"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Terms of Service
               </Link>
               <Link
-                href="#"
+                href="privacy-policy"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Privacy Policy
