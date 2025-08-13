@@ -19,7 +19,7 @@ export function Footer() {
   return (
     <footer className="bg-gradient-to-b from-[#D5E9FF] to-white py-12 px-6 mt-auto animate-fade-in-up">
       <div className="container max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Logo */}
           <div className="lg:col-span-1">
             <Image
@@ -30,56 +30,62 @@ export function Footer() {
             />
           </div>
 
-          {/* Sell a Home */}
+          {/* Navigation */}
           <div className="space-y-4">
             <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">
-              SELL A HOME
+              NAVIGATE
             </h3>
             <nav className="flex flex-col space-y-3">
               <Link
-                href="#"
+                href="/home"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Request an offer
+                Home
               </Link>
               <Link
-                href="#"
+                href="/properties"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Pricing
+                Properties
               </Link>
               <Link
-                href="#"
+                href="/doors"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Reviews
+                Doors
               </Link>
               <Link
-                href="#"
+                href="/cart"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Stories
+                Cart
               </Link>
             </nav>
           </div>
 
-          {/* Buy a Home */}
+          {/* About & Contact */}
           <div className="space-y-4">
             <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">
-              BUY A HOME
+              COMPANY
             </h3>
             <nav className="flex flex-col space-y-3">
               <Link
-                href="#"
+                href="/about"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Buy
+                About Us
               </Link>
               <Link
-                href="#"
+                href="/contact"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Finance
+                Contact
+              </Link>
+              <Link
+                href="/news"
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                News
               </Link>
               <div className="text-sm">
                 {/* Show Sign In if signed out, UserButton if signed in */}
@@ -99,122 +105,23 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Buy, Rent and Sell */}
+          {/* Legal */}
           <div className="space-y-4">
             <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">
-              BUY, RENT AND SELL
+              LEGAL
             </h3>
             <nav className="flex flex-col space-y-3">
               <Link
                 href="#"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Buy and sell properties
+                Terms of Service
               </Link>
               <Link
                 href="#"
                 className="text-gray-600 hover:text-gray-900 transition-colors"
               >
-                Rent home
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Builder trade-up
-              </Link>
-            </nav>
-
-            {/* Terms & Privacy */}
-            <div className="mt-8 space-y-4">
-              <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">
-                TERMS & PRIVACY
-              </h3>
-              <nav className="flex flex-col space-y-3">
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  Trust & Safety
-                </Link>
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  Terms of Service
-                </Link>
-                <Link
-                  href="#"
-                  className="text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  Privacy Policy
-                </Link>
-              </nav>
-            </div>
-          </div>
-
-          {/* About */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">
-              ABOUT
-            </h3>
-            <nav className="flex flex-col space-y-3">
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Company
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                How it works
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Contact
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Investors
-              </Link>
-            </nav>
-          </div>
-
-          {/* Resources */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">
-              RESOURCES
-            </h3>
-            <nav className="flex flex-col space-y-3">
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Blog
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Guides
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                FAQ
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Help Center
+                Privacy Policy
               </Link>
             </nav>
           </div>
@@ -229,28 +136,21 @@ export function Footer() {
           {/* Social Media Icons */}
           <div className="flex space-x-4">
             <Link
-              href="#"
+              href="https://www.facebook.com/people/Airban-Homes/100083341262318/"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Facebook"
             >
               <Facebook className="w-5 h-5" />
             </Link>
             <Link
-              href="#"
+              href="https://www.instagram.com/myairbanhomes/"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Instagram"
             >
               <Instagram className="w-5 h-5" />
             </Link>
             <Link
-              href="#"
-              className="text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Twitter"
-            >
-              <Twitter className="w-5 h-5" />
-            </Link>
-            <Link
-              href="#"
+              href="https://www.linkedin.com/company/airban-homes/"
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="LinkedIn"
             >

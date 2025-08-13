@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 export default function NotFound() {
   return (
+    <>
+      <Header />
     <div className=" min-h-[70vh] flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
       <div className="flex flex-col items-center mt-12">
         <div className="bg-white rounded-full p-6 shadow-lg mb-6 flex items-center justify-center">
@@ -27,5 +31,7 @@ export default function NotFound() {
         </Link>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }

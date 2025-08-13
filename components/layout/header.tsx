@@ -87,7 +87,6 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo + Nav */}
           <div className="flex items-center space-x-10">
-          
             <Link href="/home">
               <Image
                 src="/assets/airbanWhiteLogo.png"
@@ -108,8 +107,7 @@ export function Header() {
           <div className="flex items-center space-x-4">
             {/* Desktop Buttons */}
             <div className="px-3 relative">
-        
-              <Link href="/cart" className="hidden md:inline">
+              <Link href="/cart" className="hidden lg:inline">
                 <div className="relative">
                   <ShoppingCart size={18} className="text-white" />
                   {cartCount > 0 && (
@@ -123,9 +121,16 @@ export function Header() {
 
             <Button
               variant="secondary"
-              className="hidden md:flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100"
+              className="hidden md:flex items-center bg-white text-airbanBlue hover:bg-gray-200 hover:shadow-lg transition-all duration-300 ease-in-out group"
+              onClick={() => {
+                window.open(
+                  "/assets/documents/Airban+Homes+Brochure.pdf",
+                  "_blank"
+                );
+              }}
             >
-              Brochure
+            
+              <span className="font-sm">Brochure</span>
             </Button>
 
             {/* Mobile Menu Toggle */}
@@ -146,10 +151,23 @@ export function Header() {
           <div className="md:hidden mt-4 animate-in slide-in-from-top-5 fade-in duration-500 ease-out bg-black/80 backdrop-blur-lg rounded-xl px-6 py-6 space-y-6 text-white">
             <NavLinks mobile onClickLink={() => setMenuOpen(false)} />
             <div className="flex gap-2">
-            
-              <Link href="/cart" className="block w-full">
+              <Button
+                className="flex-1 flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100 hover:scale-[1.02] transform transition-all duration-300 ease-in-out group"
+                onClick={() => {
+                  window.open(
+                    "/assets/documents/Airban+Homes+Brochure.pdf",
+                    "_blank"
+                  );
+                  setMenuOpen(false);
+                }}
+                aria-label="Download Brochure"
+              >
+                <span className="font-medium">Brochure</span>
+              </Button>
+
+              <Link href="/cart" className="block flex-1">
                 <Button
-                  className="w-full flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100"
+                  className="w-full flex items-center gap-2 bg-white text-airbanBlue hover:bg-gray-100 hover:scale-[1.02] transform transition-all duration-300 ease-in-out"
                   onClick={() => setMenuOpen(false)}
                   aria-label="View Cart"
                 >
@@ -196,7 +214,6 @@ function NavLinks({
           link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
 
         return (
-       
           <Link
             key={link.href}
             href={link.href}

@@ -4,6 +4,10 @@ import {
   createRouteMatcher,
 } from "@clerk/nextjs/server";
 
+// Define routes that need authentication protection
+const isProtectedRoute = createRouteMatcher(["/admin(.*)"]);
+
+// Define public routes that should be accessible without auth
 const isPublicRoute = createRouteMatcher([
   "/",
   "/home(.*)",
@@ -14,12 +18,15 @@ const isPublicRoute = createRouteMatcher([
   "/properties(.*)",
   "/order-confirmation(.*)",
   "/news(.*)",
+  "/listings(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
+  // Only protect routes that are explicitly marked as protected
+  if (isProtectedRoute(req)) {
     await auth.protect();
   }
+  // Let Next.js handle 404s for routes that don't exist
 });
 
 export const config = {

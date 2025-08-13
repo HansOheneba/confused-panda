@@ -11,6 +11,15 @@ const nextConfig: NextConfig = {
       "i.ibb.co",
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/listings",
+        destination: "/properties",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
