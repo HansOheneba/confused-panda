@@ -65,9 +65,7 @@ export default function AboutPage() {
                   </span>
                 </div>
                 <Button className=" w-full sm:w-auto" asChild>
-                  <a href="tel:+233302984032">
-                    Speak with Agent →
-                  </a>
+                  <a href="tel:+233302984032">Speak with Agent →</a>
                 </Button>
               </div>
             </div>

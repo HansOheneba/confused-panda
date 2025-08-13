@@ -158,30 +158,6 @@ export default function PropertyListing() {
     }
   };
 
-  const faqs = [
-    {
-      question: "What is cluster housing perumnas?",
-      answer:
-        "Cluster housing perumnas is a housing concept that consists of several houses in a gated cluster. Cluster housing perumnas offers comfortable, secure, and affordable housing with various complete and modern facilities.",
-    },
-    {
-      question: "Where is the location of cluster housing perumnas?",
-      answer:
-        "Our cluster housing developments are strategically located in prime areas with easy access to schools, shopping centers, hospitals, and public transportation.",
-    },
-    {
-      question:
-        "How much are the prices and types of houses in cluster housing perumnas?",
-      answer:
-        "We offer various types of houses ranging from 2-bedroom to 5-bedroom units, with prices starting from ₹350,000 to ₹2,500,000 depending on the location and specifications.",
-    },
-    {
-      question: "What are the facilities provided in cluster housing perumnas?",
-      answer:
-        "Our cluster housing includes facilities such as 24/7 security, playground, swimming pool, jogging track, community center, and landscaped gardens.",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-airbanBlue via-white to-white py-40">
       {/* Header */}
@@ -530,7 +506,7 @@ export default function PropertyListing() {
         </div>
       </div>
       <div className="lg:py-20 p-10">
-        <FAQSection faqs={faqs} />
+        <FAQSection />
       </div>
     </div>
   );

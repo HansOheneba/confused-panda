@@ -39,7 +39,6 @@ interface DoorFormProps {
   isSubmitting: boolean;
 }
 
-
 export function DoorForm({
   initialData,
   loading = false,
@@ -63,14 +62,17 @@ export function DoorForm({
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-    useEffect(() => {
-      if (initialData) {
-        setDoor(initialData);
-        setSubImagesToDelete([]);
-        setNewSubImages([]);
-      }
-    }, [initialData]);
+  // Check if this is a new door (no initialData) and no type is selected
+  const isNewDoorWithoutType = !initialData && !door.type;
+  const shouldDisableFields = isSubmitting || isNewDoorWithoutType;
 
+  useEffect(() => {
+    if (initialData) {
+      setDoor(initialData);
+      setSubImagesToDelete([]);
+      setNewSubImages([]);
+    }
+  }, [initialData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDoor({ ...door, [e.target.name]: e.target.value });
@@ -107,6 +109,13 @@ export function DoorForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Ensure door type is selected
+    if (!door.type) {
+      alert("Please select a door type before saving.");
+      return;
+    }
+
     await onSubmit(door, {
       delete: subImagesToDelete,
       add: newSubImages,
@@ -184,6 +193,13 @@ export function DoorForm({
       onSubmit={handleSubmit}
       className="space-y-5 max-w-xl mx-auto bg-white p-5 rounded shadow"
     >
+      {isNewDoorWithoutType && (
+        <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
+          <p className="text-blue-700 text-sm">
+            Please select a door type first to enable all form fields.
+          </p>
+        </div>
+      )}
       <div className="space-y-1">
         <Label htmlFor="name">Name</Label>
         <Input
@@ -192,7 +208,7 @@ export function DoorForm({
           value={door.name}
           onChange={handleChange}
           required
-          disabled={isSubmitting}
+          disabled={shouldDisableFields}
         />
       </div>
 
@@ -206,7 +222,7 @@ export function DoorForm({
             setDoor((prev) => ({ ...prev, description: e.target.value }))
           }
           required
-          disabled={isSubmitting}
+          disabled={shouldDisableFields}
         />
       </div>
 
@@ -218,6 +234,7 @@ export function DoorForm({
             setDoor((prev) => ({ ...prev, type: value }))
           }
           disabled={isSubmitting}
+          required
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select door type" />
@@ -240,7 +257,7 @@ export function DoorForm({
           value={door.price}
           onChange={handleChange}
           required
-          disabled={isSubmitting}
+          disabled={shouldDisableFields}
         />
       </div>
 
@@ -256,7 +273,7 @@ export function DoorForm({
           }
           min={0}
           required
-          disabled={isSubmitting}
+          disabled={shouldDisableFields}
         />
       </div>
 
@@ -279,7 +296,7 @@ export function DoorForm({
             accept="image/*"
             ref={mainFileInputRef}
             onChange={handleMainImageChange}
-            disabled={mainUploading || isSubmitting}
+            disabled={mainUploading || shouldDisableFields}
           />
           {mainUploading && (
             <div className="text-xs text-blue-600">Uploading...</div>
@@ -304,7 +321,7 @@ export function DoorForm({
                     checked={subImagesToDelete.includes(img)}
                     onChange={() => handleSubImageDeleteToggle(img)}
                     id={`delete-subimg-${idx}`}
-                    disabled={isSubmitting}
+                    disabled={shouldDisableFields}
                   />
                   <Label
                     htmlFor={`delete-subimg-${idx}`}
@@ -329,7 +346,7 @@ export function DoorForm({
           multiple
           ref={fileInputRef}
           onChange={handleAddNewSubImage}
-          disabled={uploading || isSubmitting}
+          disabled={uploading || shouldDisableFields}
         />
         {uploading && <div className="text-xs text-blue-600">Uploading...</div>}
         {newSubImages.length > 0 && (
@@ -347,7 +364,7 @@ export function DoorForm({
                   variant="destructive"
                   className="absolute -top-2 -right-2 px-1 py-0.5 text-xs"
                   onClick={() => handleRemoveNewSubImage(idx)}
-                  disabled={isSubmitting}
+                  disabled={shouldDisableFields}
                 >
                   ×
                 </Button>
@@ -358,7 +375,7 @@ export function DoorForm({
       </div>
 
       <div className="flex gap-2 pt-4">
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting || !door.type}>
           {isSubmitting ? "Saving..." : "Save Changes"}
         </Button>
         <Button

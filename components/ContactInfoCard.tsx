@@ -30,8 +30,19 @@ export default function ContactInfoCard() {
           <Phone className="w-5 h-5 text-black mt-0.5" />
           <div>
             <p className="font-medium text-gray-800">Phone</p>
-            <p className="text-gray-600">(+233) 30 298 4032</p>
-            <p className="text-gray-600">(+233) 54 068 9387</p>
+            <a
+              href="tel:+233302984032"
+              className="text-gray-600 hover:text-airbanBlue transition-colors duration-200 hover:underline"
+            >
+              (+233) 30 298 4032
+            </a>
+            <br />
+            <a
+              href="tel:+233540689387"
+              className="text-gray-600 hover:text-airbanBlue transition-colors duration-200 hover:underline"
+            >
+              (+233) 54 068 9387
+            </a>
           </div>
         </div>
 
@@ -40,9 +51,7 @@ export default function ContactInfoCard() {
           <MapPin className="w-5 h-5 text-black mt-0.5" />
           <div>
             <p className="font-medium text-gray-800">Office Address</p>
-            <p className="text-gray-600">
-              Jacob Ave, Accra
-            </p>
+            <p className="text-gray-600">Jacob Ave, Accra</p>
           </div>
         </div>
 

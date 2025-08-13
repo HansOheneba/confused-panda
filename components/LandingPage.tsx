@@ -103,8 +103,6 @@ const landingPage = () => {
                     You no longer have to negotiate
                     <br />
                     commissions and haggle with other agents.
-                    <br />
-                    It only costs 2%!
                   </p>
                 </div>
 

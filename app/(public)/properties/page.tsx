@@ -10,30 +10,6 @@ import EmblaCarousel from "@/components/carousel/EmblaCarousel";
 export default function PropertiesPage() {
   const propertyList = getPropertiesSync();
 
-  const faqs = [
-    {
-      question: "What is cluster housing perumnas?",
-      answer:
-        "Cluster housing perumnas is a housing concept that consists of several houses in a gated cluster. Cluster housing perumnas offers comfortable, secure, and affordable housing with various complete and modern facilities.",
-    },
-    {
-      question: "Where is the location of cluster housing perumnas?",
-      answer:
-        "Our cluster housing developments are strategically located in prime areas with easy access to schools, shopping centers, hospitals, and public transportation.",
-    },
-    {
-      question:
-        "How much are the prices and types of houses in cluster housing perumnas?",
-      answer:
-        "We offer various types of houses ranging from 2-bedroom to 5-bedroom units, with prices starting from ₹350,000 to ₹2,500,000 depending on the location and specifications.",
-    },
-    {
-      question: "What are the facilities provided in cluster housing perumnas?",
-      answer:
-        "Our cluster housing includes facilities such as 24/7 security, playground, swimming pool, jogging track, community center, and landscaped gardens.",
-    },
-  ];
-
   return (
     <>
       <div className=" bg-gradient-to-b from-airbanBlue via-white to-white text-black py-40">
@@ -153,13 +129,13 @@ export default function PropertiesPage() {
 
         <section className="py-10">
           <h2 className="text-3xl font-bold text-center mb-8">
-           Previously Listed Properties
-            </h2>
-          <EmblaCarousel images={propertyList.map(prop => prop.image)} />
+            Previously Listed Properties
+          </h2>
+          <EmblaCarousel images={propertyList.map((prop) => prop.image)} />
         </section>
 
         {/* FAQ */}
-        <FAQSection faqs={faqs} />
+        <FAQSection />
       </div>
     </>
   );
