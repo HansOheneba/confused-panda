@@ -52,14 +52,14 @@ export default function OrderConfirmationPage({ searchParams }: any) {
             {/* Left Panel */}
             <div className="">
               <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Your Order has been placed!
+                Your Request has been placed!
               </h2>
               <p className="text-gray-600 mb-4">
-                We've received your order and it's being processed, you should
+                We've received your request and it's being processed, you should
                 hear from us soon.
               </p>
               <p className="text-gray-500 text-sm">
-                A copy of your order details has been sent to your email
+                A copy of your request details has been sent to your email
               </p>
 
               <div className="mt-6">
@@ -74,7 +74,7 @@ export default function OrderConfirmationPage({ searchParams }: any) {
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
               <div className="space-y-5 text-xs mb-10">
                 <div className="flex justify-between">
-                  <span className="font-semibold">Order ID</span>
+                  <span className="font-semibold">Request</span>
                   <span>{order.id}</span>
                 </div>
                 <div className="flex justify-between">
@@ -87,12 +87,6 @@ export default function OrderConfirmationPage({ searchParams }: any) {
                     <span>{order.notes}</span>
                   </div>
                 )}
-                <div className="flex justify-between items-center mt-2">
-                  <span className="font-semibold">TOTAL AMOUNT</span>
-                  <span className="text-xl font-bold">
-                    GHS {order.total_price}
-                  </span>
-                </div>
               </div>
               <hr className="border-gray-300/20" />
 
@@ -116,10 +110,6 @@ export default function OrderConfirmationPage({ searchParams }: any) {
                       <div className="flex justify-between text-xs text-gray-700">
                         <span>Type</span>
                         <span className="font-semibold">{item.door_type || "-"}</span>
-                      </div>
-                      <div className="flex justify-between text-xs text-gray-700">
-                        <span>Unit Price</span>
-                        <span className="font-semibold">GHS {item.unit_price}</span>
                       </div>
                       <div className="flex justify-between text-xs text-gray-700">
                         <span>Quantity</span>

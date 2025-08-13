@@ -55,9 +55,6 @@ export function OrderSummary({ cartItems, total }: OrderSummaryProps) {
                   </p>
                 </div>
               </div>
-              <p className="font-semibold">
-                GHS {(Number(item.price) * item.quantity).toFixed(2)}
-              </p>
             </div>
           ))}
         </div>
@@ -80,10 +77,7 @@ export function OrderSummary({ cartItems, total }: OrderSummaryProps) {
           </div>
         </div>
 
-        <div className="flex justify-between font-semibold text-lg mt-6 pt-4 border-t">
-          <span>Total</span>
-          <span>GHS {total.toFixed(2)}</span>
-        </div>
+    
       </CardContent>
     </Card>
   );

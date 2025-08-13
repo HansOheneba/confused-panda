@@ -64,8 +64,10 @@ export default function AboutPage() {
                     Reliability
                   </span>
                 </div>
-                <Button className=" w-full sm:w-auto">
-                  Speak with Agent →
+                <Button className=" w-full sm:w-auto" asChild>
+                  <a href="tel:+233302984032">
+                    Speak with Agent →
+                  </a>
                 </Button>
               </div>
             </div>

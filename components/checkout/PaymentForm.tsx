@@ -102,7 +102,7 @@ export function PaymentForm({
           className="bg-airbanBlue hover:bg-airbanBlue/90"
           disabled={!!isCompletingOrder}
         >
-          {isCompletingOrder ? "Processing..." : "Complete Order"}
+          {isCompletingOrder ? "Processing..." : "Request for Quote"}
         </Button>
       </div>
     </form>
