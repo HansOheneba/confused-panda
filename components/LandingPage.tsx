@@ -9,8 +9,71 @@ import { DoorsSection } from "@/components/DoorsSection";
 import { NewsroomSection } from "@/components/NewsroomSection";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import axios from "axios";
 
-const landingPage = () => {
+const LandingPage = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
+
+  interface MessageState {
+    text: string;
+    type: "success" | "error" | "";
+  }
+
+  interface SubscriptionRequest {
+    email: string;
+  }
+
+  interface SubscriptionError {
+    response?: {
+      data?: {
+        message?: string;
+      };
+    };
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!email) {
+      setMessage({ text: "Please enter your email", type: "error" });
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setMessage({ text: "Please enter a valid email", type: "error" });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setMessage({ text: "", type: "" });
+
+      await axios.post<void>(`${process.env.NEXT_PUBLIC_API_URL}/subscribe`, {
+        email: email,
+      } as SubscriptionRequest);
+
+      setMessage({
+        text: "Thank you for subscribing! We will be in touch soon.",
+        type: "success",
+      });
+      setEmail("");
+    } catch (error) {
+      console.error("Subscription error:", error);
+      const subscriptionError = error as SubscriptionError;
+      setMessage({
+        text:
+          subscriptionError.response?.data?.message ||
+          "Something went wrong. Please try again.",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -159,31 +222,45 @@ const landingPage = () => {
             email to get listed today.
           </p>
 
-          <div className="relative max-w-xl mx-auto">
-            <Input
-              type="email"
-              placeholder="Enter your email address"
-              className="pr-32 h-14 w-full"
-            />
-            <Button
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-5 h-10 rounded-lg text-white bg-airbanBlue hover:bg-airbanBlue/90"
-              type="submit"
-            >
-              Submit
-            </Button>
-          </div>
-          <div className="py-10 text-sm text-gray-500">
-            <p>
-              Join <span className="text-blue-600 font-medium">1000+</span>{" "}
-              other landowners and get your property seen
-              <br />
-              by thousands of potential buyers.
-            </p>
-          </div>
+          <form onSubmit={handleSubmit} className="max-w-xl mx-auto">
+            <div className="relative">
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email address"
+                className="pr-32 h-14 w-full"
+              />
+              <Button
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-5 h-10 rounded-lg text-white bg-airbanBlue hover:bg-airbanBlue/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </Button>
+            </div>
+            {message.text && (
+              <p
+                className={`mt-2 text-sm ${
+                  message.type === "error" ? "text-red-500" : "text-green-600"
+                }`}
+              >
+                {message.text}
+              </p>
+            )}
+            <div className="py-10 text-sm text-gray-500">
+              <p>
+                Join <span className="text-blue-600 font-medium">1000+</span>{" "}
+                other landowners and get your property seen
+                <br />
+                by thousands of potential buyers.
+              </p>
+            </div>
+          </form>
         </div>
       </section>
     </div>
   );
 };
 
-export default landingPage;
+export default LandingPage;
