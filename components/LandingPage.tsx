@@ -11,16 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 const LandingPage = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ text: "", type: "" });
-
-  interface MessageState {
-    text: string;
-    type: "success" | "error" | "";
-  }
 
   interface SubscriptionRequest {
     email: string;
@@ -38,37 +33,31 @@ const LandingPage = () => {
     e.preventDefault();
 
     if (!email) {
-      setMessage({ text: "Please enter your email", type: "error" });
+      toast.error("Please enter your email");
       return;
     }
 
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setMessage({ text: "Please enter a valid email", type: "error" });
+      toast.error("Please enter a valid email");
       return;
     }
 
     try {
       setLoading(true);
-      setMessage({ text: "", type: "" });
 
       await axios.post<void>(`${process.env.NEXT_PUBLIC_API_URL}/subscribe`, {
         email: email,
       } as SubscriptionRequest);
 
-      setMessage({
-        text: "Thank you for subscribing! We will be in touch soon.",
-        type: "success",
-      });
+      toast.success("Thank you for subscribing! We will be in touch soon.");
       setEmail("");
     } catch (error) {
       console.error("Subscription error:", error);
       const subscriptionError = error as SubscriptionError;
-      setMessage({
-        text:
-          subscriptionError.response?.data?.message ||
-          "Something went wrong. Please try again.",
-        type: "error",
-      });
+      toast.error(
+        subscriptionError.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -215,11 +204,12 @@ const LandingPage = () => {
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Are you a landowner?
+            Want to be part of our community?
           </h2>
           <p className="text-gray-600 mb-10 max-w-2xl mx-auto text-base md:text-lg">
-            Share your property with thousands of interested buyers. Enter your
-            email to get listed today.
+            Join a growing network of landowners, buyers, and real estate
+            enthusiasts. Get insights, updates, and opportunities delivered
+            straight to your inbox.
           </p>
 
           <form onSubmit={handleSubmit} className="max-w-xl mx-auto">
@@ -236,24 +226,14 @@ const LandingPage = () => {
                 type="submit"
                 disabled={loading}
               >
-                {loading ? "Submitting..." : "Submit"}
+                {loading ? "Joining..." : "Join Now"}
               </Button>
             </div>
-            {message.text && (
-              <p
-                className={`mt-2 text-sm ${
-                  message.type === "error" ? "text-red-500" : "text-green-600"
-                }`}
-              >
-                {message.text}
-              </p>
-            )}
             <div className="py-10 text-sm text-gray-500">
               <p>
-                Join <span className="text-blue-600 font-medium">1000+</span>{" "}
-                other landowners and get your property seen
-                <br />
-                by thousands of potential buyers.
+                Become part of a community of{" "}
+                <span className="text-blue-600 font-medium">1000+</span> people
+                learning, sharing, and growing in real estate.
               </p>
             </div>
           </form>
