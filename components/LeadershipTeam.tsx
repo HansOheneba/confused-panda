@@ -20,13 +20,14 @@ const teamMembers = [
     reverse: true,
   },
   {
-    name: "Dennis Owusu Ansah",
-    title: "IT Advisor",
-    description:
-      "Sandra is responsible for identifying, analyzing and mitigating risk that may be associated with the company’s business operations. She also ensures that all properties scheduled for listing.",
-    image: "/assets/dennis.jpeg",
-    reverse: false,
-  },
+  name: "Dennis Owusu Ansah",
+  title: "IT Advisor",
+  description:
+    "Dennis provides strategic guidance on technology and digital transformation. He advises the company on IT infrastructure, cybersecurity, and innovative solutions that support efficient operations and long-term growth.",
+  image: "/assets/dennis.jpeg",
+  reverse: false,
+},
+
 ];
 
 export default function LeadershipTeam() {
