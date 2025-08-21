@@ -24,7 +24,7 @@ const teamMembers = [
     title: "IT Advisor",
     description:
       "Sandra is responsible for identifying, analyzing and mitigating risk that may be associated with the company’s business operations. She also ensures that all properties scheduled for listing.",
-    image: "/assets/sandra.png",
+    image: "/assets/dennis.jpeg",
     reverse: false,
   },
 ];
