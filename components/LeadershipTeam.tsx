@@ -5,7 +5,7 @@ import Image from "next/image";
 const teamMembers = [
   {
     name: "Benjamin Eddie Cudjoe",
-    title: "Managing Director",
+    title: "Non Executive Director",
     description:
       "Ben has ten (10) years of experience in building engineering and property management. He started his professional career as a building technologist and project manager with Krane Construction Ltd.",
     image: "/assets/eddie.png",
